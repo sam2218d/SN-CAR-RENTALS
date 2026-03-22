@@ -192,22 +192,28 @@ function HomePage() {
                 {/* Date */}
                 <div className="px-4 py-3 md:px-5 md:py-4 md:border-r border-b md:border-b-0 border-[#efe7dc] cursor-text">
                   <label className="block text-xs font-bold text-[#322e28] mb-0.5 font-headline">Pick Up Date</label>
-                  <input
-                    type="date"
-                    value={pickupDate}
-                    onChange={(e) => setPickupDate(e.target.value)}
-                    className="bg-transparent text-xs text-[#7b766e] outline-none font-body w-[120px]"
-                  />
+                  <div className="relative flex items-center">
+                    <input
+                      type="date"
+                      value={pickupDate}
+                      onChange={(e) => setPickupDate(e.target.value)}
+                      className="bg-transparent text-xs text-[#7b766e] outline-none font-body w-[120px] relative z-10 [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer appearance-none"
+                    />
+                    <span className="material-symbols-outlined text-[#b3aca3] text-lg absolute right-0 z-0 pointer-events-none">calendar_month</span>
+                  </div>
                 </div>
                 {/* Time */}
                 <div className="px-4 py-3 md:px-5 md:py-4 border-b md:border-b-0 border-[#efe7dc] cursor-text">
                   <label className="block text-xs font-bold text-[#322e28] mb-0.5 font-headline">Pick Up Time</label>
-                  <input
-                    type="time"
-                    value={pickupTime}
-                    onChange={(e) => setPickupTime(e.target.value)}
-                    className="bg-transparent text-xs text-[#7b766e] outline-none font-body w-[90px]"
-                  />
+                  <div className="relative flex items-center">
+                    <input
+                      type="time"
+                      value={pickupTime}
+                      onChange={(e) => setPickupTime(e.target.value)}
+                      className="bg-transparent text-xs text-[#7b766e] outline-none font-body w-[90px] relative z-10 [&::-webkit-calendar-picker-indicator]:opacity-0 [&::-webkit-calendar-picker-indicator]:absolute [&::-webkit-calendar-picker-indicator]:inset-0 [&::-webkit-calendar-picker-indicator]:w-full [&::-webkit-calendar-picker-indicator]:h-full [&::-webkit-calendar-picker-indicator]:cursor-pointer appearance-none"
+                    />
+                    <span className="material-symbols-outlined text-[#b3aca3] text-lg absolute right-0 z-0 pointer-events-none">schedule</span>
+                  </div>
                 </div>
                 {/* Book Now */}
                 <div className="p-2 flex items-center">
