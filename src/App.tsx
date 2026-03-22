@@ -695,7 +695,7 @@ function CalculatePage() {
                         Best package applied: {calculation.appliedPackage.hours}h / {calculation.appliedPackage.km}km
                       </div>
                     )}
-                    <button className="w-full mt-8 bg-[#322e28] text-white py-5 rounded-full font-bold text-lg uppercase tracking-widest hover:bg-[#1E293B] transition-colors cursor-pointer">
+                    <button onClick={() => window.open(`https://wa.me/917003692464?text=${encodeURIComponent(`Hi, I'd like to book a ${packageType === 'outstation' ? 'Outstation' : 'Local'} trip.\nCar: ${carType === 'sedan' ? 'Sedan' : 'SUV'} | AC: ${isAc ? 'Yes' : 'No'}\nHours: ${hours} | KM: ${km}\nTotal Fare: ₹${calculation.finalTotal}`)}`, '_blank')} className="w-full mt-8 bg-[#322e28] text-white py-5 rounded-full font-bold text-lg uppercase tracking-widest hover:bg-[#1E293B] transition-colors cursor-pointer">
                       Reserve Now
                     </button>
                   </div>
