@@ -1,51 +1,7 @@
 import { useState, useMemo } from 'react';
-import { BrowserRouter, Routes, Route, useNavigate, Link } from 'react-router-dom';
+import { BrowserRouter, Routes, Route, useNavigate, useSearchParams, Link } from 'react-router-dom';
 
-// --- Types & Data ---
-type CarType = 'sedan' | 'suv';
-type PackageType = 'local' | 'outstation' | 'pick-drop';
-type NightChargeType = 'none' | 'half' | 'full' | 'next-day';
-
-interface PricingData {
-  packages: { hours: number; km: number; nonAc: number; ac: number }[];
-  extraHour: { nonAc: number; ac: number };
-  extraKmLocal: { nonAc: number; ac: number };
-  outstationKm: { nonAc: number; ac: number };
-}
-
-const PRICING: Record<CarType, PricingData> = {
-  sedan: {
-    packages: [
-      { hours: 6, km: 60, nonAc: 1500, ac: 1700 },
-      { hours: 8, km: 80, nonAc: 1650, ac: 1850 },
-      { hours: 12, km: 120, nonAc: 2300, ac: 2550 },
-      { hours: 16, km: 160, nonAc: 2850, ac: 3250 },
-      { hours: 20, km: 200, nonAc: 3300, ac: 3600 },
-    ],
-    extraHour: { nonAc: 160, ac: 180 },
-    extraKmLocal: { nonAc: 15, ac: 17 },
-    outstationKm: { nonAc: 13.5, ac: 15 },
-  },
-  suv: {
-    packages: [
-      { hours: 6, km: 60, nonAc: 2000, ac: 2200 },
-      { hours: 8, km: 80, nonAc: 2150, ac: 2350 },
-      { hours: 12, km: 120, nonAc: 2800, ac: 3050 },
-      { hours: 16, km: 160, nonAc: 3350, ac: 3750 },
-      { hours: 20, km: 200, nonAc: 3800, ac: 4100 },
-    ],
-    extraHour: { nonAc: 200, ac: 220 },
-    extraKmLocal: { nonAc: 18, ac: 20 },
-    outstationKm: { nonAc: 16, ac: 18 },
-  }
-};
-
-const NIGHT_CHARGES: Record<NightChargeType, number> = {
-  'none': 0,
-  'half': 250,
-  'full': 500,
-  'next-day': 1000
-};
+import { CarType, PackageType, NightChargeType, PRICING, NIGHT_CHARGES, PICK_DROP_RATES } from './pricingConfig';
 
 // ============================================================
 // NAVBAR COMPONENT
@@ -101,32 +57,32 @@ function Navbar() {
 // ============================================================
 function Footer() {
   return (
-    <footer className="bg-[#1E293B] text-slate-300 py-16">
+    <footer className="bg-[#1E293B] text-slate-300 py-10 md:py-16">
       <div className="max-w-7xl mx-auto px-8">
-        <div className="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 md:gap-12 mb-10 md:mb-16">
           <div>
-            <div className="text-2xl font-bold text-white font-headline mb-6">SN CAR RENTALs</div>
-            <p className="text-slate-400 font-body leading-relaxed mb-6">Redefining luxury travel and car rentals across the globe since 2024.</p>
+            <div className="text-2xl font-bold text-white font-headline mb-4 md:mb-6">SN CAR RENTALs</div>
+            <p className="text-slate-400 font-body leading-relaxed mb-4 md:mb-6">Redefining luxury travel and car rentals across the globe since 2024.</p>
           </div>
           <div>
-            <h5 className="text-white font-bold mb-6 font-headline">Company</h5>
-            <ul className="space-y-4 font-body text-sm">
+            <h5 className="text-white font-bold mb-4 md:mb-6 font-headline">Company</h5>
+            <ul className="space-y-2 md:space-y-4 font-body text-sm">
               <li><a className="hover:text-orange-400 transition-colors cursor-pointer" href="#">About Us</a></li>
               <li><a className="hover:text-orange-400 transition-colors cursor-pointer" href="#">Our Fleet</a></li>
               <li><a className="hover:text-orange-400 transition-colors cursor-pointer" href="#">Careers</a></li>
             </ul>
           </div>
           <div>
-            <h5 className="text-white font-bold mb-6 font-headline">Services</h5>
-            <ul className="space-y-4 font-body text-sm">
+            <h5 className="text-white font-bold mb-4 md:mb-6 font-headline">Services</h5>
+            <ul className="space-y-2 md:space-y-4 font-body text-sm">
               <li><a className="hover:text-orange-400 transition-colors cursor-pointer" href="#">Local City Tours</a></li>
               <li><a className="hover:text-orange-400 transition-colors cursor-pointer" href="#">Airport Pickups</a></li>
               <li><a className="hover:text-orange-400 transition-colors cursor-pointer" href="#">Outstation Trips</a></li>
             </ul>
           </div>
           <div>
-            <h5 className="text-white font-bold mb-6 font-headline">Contact</h5>
-            <ul className="space-y-4 font-body text-sm">
+            <h5 className="text-white font-bold mb-4 md:mb-6 font-headline">Contact</h5>
+            <ul className="space-y-2 md:space-y-4 font-body text-sm">
               <li className="flex items-start gap-3">
                 <span className="material-symbols-outlined text-orange-400 text-lg">location_on</span>
                 <span>Kolkata, India</span>
@@ -142,7 +98,7 @@ function Footer() {
             </ul>
           </div>
         </div>
-        <div className="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+        <div className="border-t border-slate-800 pt-6 md:pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-xs text-slate-500">© 2024 SN CAR RENTALs. All rights reserved.</p>
           <div className="flex gap-8 text-xs text-slate-500">
             <a className="hover:text-white transition-colors cursor-pointer" href="#">Privacy Policy</a>
@@ -157,8 +113,51 @@ function Footer() {
 // ============================================================
 // HOME PAGE
 // ============================================================
+const TESTIMONIALS_ROW_1 = [
+  { text: "Their ability to capture our brand essence in every project is unparalleled - an invaluable creative collaborator.", name: "Isabella Rodriguez", role: "CEO and Co-founder, ABC Company", image: "https://lh3.googleusercontent.com/aida-public/AEdV_t566w9E0u_K_2kKj_x2hB52701X6ZEx2q_rO0tG8Z_I80-T1lU3_gZ09N8j6B9K1J4F-V85L-7-C9X3lO04U8R-29C35N84W" },
+  { text: "Creative geniuses who listen, understand, and craft captivating visuals - an agency that truly understands our needs.", name: "Gabrielle Williams", role: "Marketing Director, XYZ Corp", image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDQqA8Q1C62H7xJ3M0B6x2s9R_F4J2-U18B_l9-o_332U_M89E-7F8gI1G-Z_U5K10-53E_L3G0z_Z36E10V4P19M4gC1W_T" },
+  { text: "Exceeded our expectations with innovative designs that brought our vision to life - a truly remarkable creative agency.", name: "Samantha Johnson", role: "Product Manager, TechFlow", image: "https://lh3.googleusercontent.com/aida-public/AB6AXuD9E990u51kFzD9k2E05V0M6-4p4_9G1D42a8C9F-I6M99709M5l0uL0o9D1v0X2b0-9I3f8D8O890T1o6M3Y-9h_D9e2I9O9O" },
+  { text: "A refreshing and imaginative team that consistently delivers exceptional results - highly recommended for any project.", name: "Victoria Thompson", role: "Founder, Startup Inc", image: "https://lh3.googleusercontent.com/aida-public/AEdV_t59G0_j6w6K2C1Y4D4lX76a5kF-K78B7J4jJ9vT_6v8gJ2_yO0P-8E1Q8Z3U9U1kY1U9f_1A6G_zH2V1_8S8A-1E2x1hR6X7" }
+];
+
+const TESTIMONIALS_ROW_2 = [
+  { text: "From concept to execution, their creativity knows no bounds - a game-changer for our brand's success.", name: "Natalie Martinez", role: "Brand Manager, Globex", image: "https://lh3.googleusercontent.com/aida-public/AB6AXuDQqA8Q1C62H7xJ3M0B6x2s9R_F4J2-U18B_l9-o_332U_M89E-7F8gI1G-Z_U5K10-53E_L3G0z_Z36E10V4P19M4gC1W_T" },
+  { text: "Their team's artistic flair and strategic approach resulted in remarkable campaigns - a reliable creative partner.", name: "John Peter", role: "VP of Sales, Initech", image: "https://lh3.googleusercontent.com/aida-public/AEdV_t566w9E0u_K_2kKj_x2hB52701X6ZEx2q_rO0tG8Z_I80-T1lU3_gZ09N8j6B9K1J4F-V85L-7-C9X3lO04U8R-29C35N84W" },
+  { text: "Outstanding attention to detail and a passion for design that shines through in every single deliverable they create.", name: "Michael Chang", role: "Director, Innovate LLC", image: "https://lh3.googleusercontent.com/aida-public/AB6AXuD9E990u51kFzD9k2E05V0M6-4p4_9G1D42a8C9F-I6M99709M5l0uL0o9D1v0X2b0-9I3f8D8O890T1o6M3Y-9h_D9e2I9O9O" },
+  { text: "They transformed our entire digital presence with their visionary approach. Absolutely thrilled with the final outcome.", name: "Emma Davis", role: "CEO, Nexa IT", image: "https://lh3.googleusercontent.com/aida-public/AEdV_t59G0_j6w6K2C1Y4D4lX76a5kF-K78B7J4jJ9vT_6v8gJ2_yO0P-8E1Q8Z3U9U1kY1U9f_1A6G_zH2V1_8S8A-1E2x1hR6X7" }
+];
+
+const TestimonialCard = ({ text, name, role, image }: { key?: string | number; text: string; name: string; role: string; image: string }) => (
+  <div className="bg-[#f8f0e5] rounded-3xl p-6 sm:p-8 w-[280px] sm:w-[420px] shrink-0 mx-2 sm:mx-4 border border-[#efe7dc] flex flex-col justify-between transition-transform hover:-translate-y-1 duration-300">
+    <div>
+      <span className="material-symbols-outlined text-3xl sm:text-[40px] text-[#4f46e5] mb-2 sm:mb-4" style={{fontVariationSettings: "'FILL' 1"}}>format_quote</span>
+      <p className="font-headline font-semibold text-[#322e28] text-sm sm:text-lg mb-4 sm:mb-8 leading-snug">
+        {text}
+      </p>
+    </div>
+    <div className="flex items-center gap-3 sm:gap-4 mt-2">
+      <img src={image} alt={name} className="w-10 h-10 sm:w-12 sm:h-12 rounded-full object-cover border-2 border-white shadow-sm" />
+      <div>
+        <h4 className="font-headline font-bold text-[#322e28] text-xs sm:text-sm">{name}</h4>
+        <p className="text-[#7b766e] text-[9px] sm:text-xs tracking-wide">{role}</p>
+      </div>
+    </div>
+  </div>
+);
+
 function HomePage() {
   const navigate = useNavigate();
+  const [pickup, setPickup] = useState('');
+  const [pickupDate, setPickupDate] = useState('');
+  const [pickupTime, setPickupTime] = useState('');
+
+  const handleBookNow = () => {
+    const params = new URLSearchParams();
+    if (pickup) params.set('pickup', pickup);
+    if (pickupDate) params.set('date', pickupDate);
+    if (pickupTime) params.set('time', pickupTime);
+    navigate(`/calculate?${params.toString()}`);
+  };
   
   return (
     <div className="min-h-screen bg-[#fdf5eb] font-body text-[#322e28]">
@@ -172,22 +171,55 @@ function HomePage() {
             <h1 className="font-headline text-4xl sm:text-6xl md:text-7xl font-extrabold text-[#322e28] leading-[1.1] tracking-tight mb-4 sm:mb-6">
               Your Journey <br/><span className="text-[#994100]">Begins Here</span>
             </h1>
-            <p className="text-base sm:text-lg text-[#5f5b53] max-w-lg mb-6 sm:mb-10 leading-relaxed font-body">
+            <p className="text-base sm:text-lg text-[#5f5b53] max-w-lg mb-6 sm:mb-8 leading-relaxed font-body">
               Experience the ultimate comfort and freedom with our premium fleet. We curate memories, not just destinations.
             </p>
-            <div className="flex flex-wrap gap-4">
-              <button 
-                onClick={() => navigate('/calculate')}
-                className="bg-gradient-to-br from-[#994100] to-[#ff7a23] text-white px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold flex items-center gap-2 hover:scale-105 transition-transform shadow-lg shadow-orange-500/20 cursor-pointer text-sm sm:text-base"
-              >
-                Book Now <span className="material-symbols-outlined text-xl">arrow_right_alt</span>
-              </button>
-              <a 
-                href="#fleet"
-                className="bg-white text-[#322e28] border border-[#b3aca3]/15 px-6 sm:px-8 py-3 sm:py-4 rounded-full font-bold hover:bg-[#efe7dc] transition-colors cursor-pointer text-sm sm:text-base"
-              >
-                Explore Fleet
-              </a>
+
+            {/* Booking Search Bar */}
+            <div className="bg-white rounded-2xl md:rounded-full shadow-[0_20px_60px_-15px_rgba(50,46,40,0.15)] border border-[#efe7dc] max-w-3xl">
+              <div className="flex flex-col md:flex-row items-stretch">
+                {/* Trip Route */}
+                <div className="flex-[2] px-4 py-3 md:px-5 md:py-4 md:border-r border-b md:border-b-0 border-[#efe7dc] cursor-text">
+                  <label className="block text-xs font-bold text-[#322e28] mb-0.5 font-headline">Trip Route</label>
+                  <input
+                    type="text"
+                    placeholder="Pickup address to Drop off address..."
+                    value={pickup}
+                    onChange={(e) => setPickup(e.target.value)}
+                    className="w-full bg-transparent text-xs text-[#7b766e] placeholder-[#b3aca3] outline-none font-body"
+                  />
+                </div>
+                {/* Date */}
+                <div className="px-4 py-3 md:px-5 md:py-4 md:border-r border-b md:border-b-0 border-[#efe7dc] cursor-text">
+                  <label className="block text-xs font-bold text-[#322e28] mb-0.5 font-headline">Pick Up Date</label>
+                  <input
+                    type="date"
+                    value={pickupDate}
+                    onChange={(e) => setPickupDate(e.target.value)}
+                    className="bg-transparent text-xs text-[#7b766e] outline-none font-body w-[120px]"
+                  />
+                </div>
+                {/* Time */}
+                <div className="px-4 py-3 md:px-5 md:py-4 border-b md:border-b-0 border-[#efe7dc] cursor-text">
+                  <label className="block text-xs font-bold text-[#322e28] mb-0.5 font-headline">Pick Up Time</label>
+                  <input
+                    type="time"
+                    value={pickupTime}
+                    onChange={(e) => setPickupTime(e.target.value)}
+                    className="bg-transparent text-xs text-[#7b766e] outline-none font-body w-[90px]"
+                  />
+                </div>
+                {/* Book Now */}
+                <div className="p-2 flex items-center">
+                  <button
+                    onClick={handleBookNow}
+                    className="bg-gradient-to-br from-[#d4a574] to-[#c49060] text-white w-full md:w-[80px] h-full min-h-[44px] md:min-h-[56px] py-1 md:py-0 rounded-xl md:rounded-2xl font-bold text-xs flex flex-row md:flex-col items-center justify-center gap-1.5 md:gap-1 hover:scale-105 active:scale-95 transition-transform cursor-pointer"
+                  >
+                    <span className="material-symbols-outlined text-lg md:text-xl">calendar_month</span>
+                    <span className="text-[11px] md:text-[10px] font-bold tracking-wide">Book Now</span>
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
           <div className="relative">
@@ -218,44 +250,8 @@ function HomePage() {
         </div>
       </section>
 
-      {/* Services Section */}
-      <section id="services" className="py-12 sm:py-24 bg-[#fdf5eb]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="text-center mb-16">
-            <span className="text-[#994100] font-bold tracking-widest uppercase text-xs">World Class Services</span>
-            <h2 className="font-headline text-2xl sm:text-4xl font-extrabold text-[#322e28] mt-2">Which Services We Provide</h2>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Local City Tours */}
-            <div className="bg-white p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] hover:-translate-y-2 transition-transform">
-              <div className="w-14 h-14 bg-[#eae1d5] rounded-full flex items-center justify-center mb-8">
-                <span className="material-symbols-outlined text-[#994100] text-3xl">map</span>
-              </div>
-              <h3 className="font-headline text-xl font-bold mb-4">Local City Tours</h3>
-              <p className="text-[#5f5b53] font-body leading-relaxed">Tailored explorations within city limits, discovering hidden gems and iconic landmarks.</p>
-            </div>
-            {/* Outstation Trips (Orange) */}
-            <div className="bg-gradient-to-br from-[#994100] to-[#ff7a23] p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] text-white hover:-translate-y-2 transition-transform transform md:scale-105">
-              <div className="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center mb-8">
-                <span className="material-symbols-outlined text-white text-3xl">distance</span>
-              </div>
-              <h3 className="font-headline text-xl font-bold mb-4 text-white">Outstation Trips</h3>
-              <p className="text-white/80 font-body leading-relaxed">Comfortable long-distance travel designed for weekend getaways and scenic road trips.</p>
-            </div>
-            {/* Airport Transfers */}
-            <div className="bg-white p-6 sm:p-10 rounded-2xl sm:rounded-[2rem] shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] hover:-translate-y-2 transition-transform">
-              <div className="w-14 h-14 bg-[#eae1d5] rounded-full flex items-center justify-center mb-8">
-                <span className="material-symbols-outlined text-[#994100] text-3xl">flight_takeoff</span>
-              </div>
-              <h3 className="font-headline text-xl font-bold mb-4">Airport Transfers</h3>
-              <p className="text-[#5f5b53] font-body leading-relaxed">Reliable pick and drop services ensuring you reach your flight comfortably and on time.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
       {/* Why Choose Us */}
-      <section id="why-us" className="py-12 sm:py-24 bg-[#f8f0e5] overflow-hidden">
+      <section id="why-us" className="py-12 sm:py-24 bg-[#fdf5eb] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-20 items-center">
           <div className="order-2 md:order-1 relative">
             <div className="relative w-full aspect-square max-w-md mx-auto">
@@ -299,6 +295,42 @@ function HomePage() {
                   <p className="text-[#5f5b53] font-body text-sm">No hidden costs. What you see is exactly what you pay.</p>
                 </div>
               </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Services Section */}
+      <section id="services" className="py-10 sm:py-24 bg-[#f8f0e5]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="text-center mb-8 sm:mb-16">
+            <span className="text-[#994100] font-bold tracking-widest uppercase text-[10px] sm:text-xs">World Class Services</span>
+            <h2 className="font-headline text-2xl sm:text-4xl font-extrabold text-[#322e28] mt-2">Which Services We Provide</h2>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8">
+            {/* Local City Tours */}
+            <div className="bg-white p-5 sm:p-10 rounded-2xl sm:rounded-[2rem] shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] hover:-translate-y-2 transition-transform">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#eae1d5] rounded-full flex items-center justify-center mb-4 sm:mb-8">
+                <span className="material-symbols-outlined text-[#994100] text-2xl sm:text-3xl">map</span>
+              </div>
+              <h3 className="font-headline text-lg sm:text-xl font-bold mb-2 sm:mb-4">Local city Visit</h3>
+              <p className="text-[#5f5b53] text-xs sm:text-base font-body leading-relaxed">Tailored explorations within city limits, discovering hidden gems and iconic landmarks.</p>
+            </div>
+            {/* Outstation Trips (Orange) */}
+            <div className="bg-gradient-to-br from-[#994100] to-[#ff7a23] p-5 sm:p-10 rounded-2xl sm:rounded-[2rem] shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] text-white hover:-translate-y-2 transition-transform transform md:scale-105">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-white/20 rounded-full flex items-center justify-center mb-4 sm:mb-8">
+                <span className="material-symbols-outlined text-white text-2xl sm:text-3xl">distance</span>
+              </div>
+              <h3 className="font-headline text-lg sm:text-xl font-bold mb-2 sm:mb-4 text-white">Outstation Round trip</h3>
+              <p className="text-white/80 text-xs sm:text-base font-body leading-relaxed">Comfortable long-distance travel designed for weekend getaways and scenic road trips.</p>
+            </div>
+            {/* Airport Transfers */}
+            <div className="bg-white p-5 sm:p-10 rounded-2xl sm:rounded-[2rem] shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] hover:-translate-y-2 transition-transform">
+              <div className="w-12 h-12 sm:w-14 sm:h-14 bg-[#eae1d5] rounded-full flex items-center justify-center mb-4 sm:mb-8">
+                <span className="material-symbols-outlined text-[#994100] text-2xl sm:text-3xl">flight_takeoff</span>
+              </div>
+              <h3 className="font-headline text-lg sm:text-xl font-bold mb-2 sm:mb-4">Airport & Railway station transfer</h3>
+              <p className="text-[#5f5b53] text-xs sm:text-base font-body leading-relaxed">Reliable pick and drop services ensuring you reach your flight comfortably and on time.</p>
             </div>
           </div>
         </div>
@@ -367,6 +399,54 @@ function HomePage() {
         </div>
       </section>
 
+      {/* Testimonial Section */}
+      <section id="testimonials" className="py-12 sm:py-32 bg-white overflow-hidden relative">
+        <style dangerouslySetInnerHTML={{__html: `
+          @keyframes slide-left {
+            0% { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+          }
+          @keyframes slide-right {
+            0% { transform: translateX(-50%); }
+            100% { transform: translateX(0); }
+          }
+          .animate-infinite-slide-left {
+            animation: slide-left 40s linear infinite;
+          }
+          .animate-infinite-slide-right {
+            animation: slide-right 40s linear infinite;
+          }
+          .animate-infinite-slide-left:hover, .animate-infinite-slide-right:hover {
+            animation-play-state: paused;
+          }
+        `}} />
+        
+        <div className="max-w-7xl mx-auto px-4 sm:px-8 mb-8 sm:mb-16 text-center">
+          <span className="text-[#ea6a88] sm:text-[#994100] font-bold tracking-[0.2em] font-headline uppercase text-[10px] sm:text-xs">Testimonials</span>
+          <h2 className="font-headline text-2xl sm:text-5xl font-extrabold text-[#322e28] mt-2 sm:mt-4 mb-2 sm:mb-4 leading-tight">What People Think About Us</h2>
+        </div>
+        
+        {/* Gradients for smooth fading edges */}
+        <div className="absolute left-0 top-0 bottom-0 w-8 sm:w-32 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none"></div>
+        <div className="absolute right-0 top-0 bottom-0 w-8 sm:w-32 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none"></div>
+
+        <div className="flex flex-col gap-4 sm:gap-8 relative z-0">
+          {/* Row 1 - Sliding Left */}
+          <div className="flex w-max animate-infinite-slide-left">
+            {[...TESTIMONIALS_ROW_1, ...TESTIMONIALS_ROW_1].map((t, i) => (
+               <TestimonialCard key={i} text={t.text} name={t.name} role={t.role} image={t.image} />
+            ))}
+          </div>
+
+          {/* Row 2 - Sliding Right */}
+          <div className="flex w-max animate-infinite-slide-right">
+            {[...TESTIMONIALS_ROW_2, ...TESTIMONIALS_ROW_2].map((t, i) => (
+               <TestimonialCard key={i} text={t.text} name={t.name} role={t.role} image={t.image} />
+            ))}
+          </div>
+        </div>
+      </section>
+
       <Footer />
     </div>
   );
@@ -377,6 +457,7 @@ function HomePage() {
 // ============================================================
 function CalculatePage() {
   const navigate = useNavigate();
+  const [searchParams] = useSearchParams();
   const [carType, setCarType] = useState<CarType>('sedan');
   const [isAc, setIsAc] = useState(true);
   const [packageType, setPackageType] = useState<PackageType>('local');
@@ -384,6 +465,11 @@ function CalculatePage() {
   const [km, setKm] = useState<string>('');
   const [nightCharge, setNightCharge] = useState<NightChargeType>('none');
   const [showResult, setShowResult] = useState(false);
+
+  // Trip details from hero booking bar
+  const tripPickup = searchParams.get('pickup') || '';
+  const tripDate = searchParams.get('date') || '';
+  const tripTime = searchParams.get('time') || '';
 
   const calculation = useMemo(() => {
     const numHours = parseFloat(hours) || 0;
@@ -489,98 +575,32 @@ function CalculatePage() {
                 <p className="text-[#5f5b53] text-xs sm:text-sm mb-4 sm:mb-8">Select your pickup/drop location and book directly.</p>
 
                 <div className="grid grid-cols-1 gap-4 sm:gap-6">
-                  {/* HWH Station */}
-                  <div className="bg-[#f8f0e5] p-4 sm:p-6 rounded-2xl hover:bg-[#efe7dc] transition-colors group">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
-                        <span className="material-symbols-outlined text-[#994100]">train</span>
+                  {PICK_DROP_RATES.map((rate) => (
+                    <div key={rate.id} className="bg-[#f8f0e5] p-4 sm:p-6 rounded-2xl hover:bg-[#efe7dc] transition-colors group relative">
+                      {rate.isPopular && (
+                        <div className="absolute top-4 right-4 bg-[#febb28] text-[#563b00] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Popular</div>
+                      )}
+                      <div className="flex items-center gap-3 mb-4">
+                        <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
+                          <span className="material-symbols-outlined text-[#994100]">{rate.icon}</span>
+                        </div>
+                        <h4 className="font-headline font-bold text-lg">{rate.name}</h4>
                       </div>
-                      <h4 className="font-headline font-bold text-lg">HWH Station</h4>
+                      <div className="flex gap-4 mb-5">
+                        <div className="flex-1 bg-white p-3 rounded-xl text-center">
+                          <div className="text-[10px] font-bold uppercase tracking-widest text-[#7b766e] mb-1">Non-AC</div>
+                          <div className="text-xl font-headline font-bold text-[#322e28]">₹{rate.nonAc.toLocaleString('en-IN')}</div>
+                        </div>
+                        <div className="flex-1 bg-gradient-to-br from-[#994100] to-[#ff7a23] p-3 rounded-xl text-center text-white">
+                          <div className="text-[10px] font-bold uppercase tracking-widest text-white/70 mb-1">AC</div>
+                          <div className="text-xl font-headline font-bold">₹{rate.ac.toLocaleString('en-IN')}</div>
+                        </div>
+                      </div>
+                      <button onClick={() => window.open(`https://wa.me/917003692464?text=${encodeURIComponent(`Hi, I want to book a Pick & Drop to/from ${rate.name.replace(' & ', '/')}. Non-AC: ₹${rate.nonAc} / AC: ₹${rate.ac}`)}`, '_blank')} className="w-full bg-[#322e28] text-white py-3 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-[#1E293B] transition-colors cursor-pointer">
+                        Book Now
+                      </button>
                     </div>
-                    <div className="flex gap-4 mb-5">
-                      <div className="flex-1 bg-white p-3 rounded-xl text-center">
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-[#7b766e] mb-1">Non-AC</div>
-                        <div className="text-xl font-headline font-bold text-[#322e28]">₹1,100</div>
-                      </div>
-                      <div className="flex-1 bg-gradient-to-br from-[#994100] to-[#ff7a23] p-3 rounded-xl text-center text-white">
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-white/70 mb-1">AC</div>
-                        <div className="text-xl font-headline font-bold">₹1,200</div>
-                      </div>
-                    </div>
-                    <button onClick={() => window.open(`https://wa.me/917003692464?text=${encodeURIComponent('Hi, I want to book a Pick & Drop to/from HWH Station. Non-AC: ₹1100 / AC: ₹1200')}`, '_blank')} className="w-full bg-[#322e28] text-white py-3 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-[#1E293B] transition-colors cursor-pointer">
-                      Book Now
-                    </button>
-                  </div>
-
-                  {/* Airport */}
-                  <div className="bg-[#f8f0e5] p-4 sm:p-6 rounded-2xl hover:bg-[#efe7dc] transition-colors group relative">
-                    <div className="absolute top-4 right-4 bg-[#febb28] text-[#563b00] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Popular</div>
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
-                        <span className="material-symbols-outlined text-[#994100]">flight</span>
-                      </div>
-                      <h4 className="font-headline font-bold text-lg">Airport</h4>
-                    </div>
-                    <div className="flex gap-4 mb-5">
-                      <div className="flex-1 bg-white p-3 rounded-xl text-center">
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-[#7b766e] mb-1">Non-AC</div>
-                        <div className="text-xl font-headline font-bold text-[#322e28]">₹1,300</div>
-                      </div>
-                      <div className="flex-1 bg-gradient-to-br from-[#994100] to-[#ff7a23] p-3 rounded-xl text-center text-white">
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-white/70 mb-1">AC</div>
-                        <div className="text-xl font-headline font-bold">₹1,400</div>
-                      </div>
-                    </div>
-                    <button onClick={() => window.open(`https://wa.me/917003692464?text=${encodeURIComponent('Hi, I want to book a Pick & Drop to/from Airport. Non-AC: ₹1300 / AC: ₹1400')}`, '_blank')} className="w-full bg-[#322e28] text-white py-3 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-[#1E293B] transition-colors cursor-pointer">
-                      Book Now
-                    </button>
-                  </div>
-
-                  {/* Shalimar & Satragachi */}
-                  <div className="bg-[#f8f0e5] p-4 sm:p-6 rounded-2xl hover:bg-[#efe7dc] transition-colors group">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
-                        <span className="material-symbols-outlined text-[#994100]">train</span>
-                      </div>
-                      <h4 className="font-headline font-bold text-lg">Shalimar & Satragachi</h4>
-                    </div>
-                    <div className="flex gap-4 mb-5">
-                      <div className="flex-1 bg-white p-3 rounded-xl text-center">
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-[#7b766e] mb-1">Non-AC</div>
-                        <div className="text-xl font-headline font-bold text-[#322e28]">₹1,350</div>
-                      </div>
-                      <div className="flex-1 bg-gradient-to-br from-[#994100] to-[#ff7a23] p-3 rounded-xl text-center text-white">
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-white/70 mb-1">AC</div>
-                        <div className="text-xl font-headline font-bold">₹1,450</div>
-                      </div>
-                    </div>
-                    <button onClick={() => window.open(`https://wa.me/917003692464?text=${encodeURIComponent('Hi, I want to book a Pick & Drop to/from Shalimar/Satragachi. Non-AC: ₹1350 / AC: ₹1450')}`, '_blank')} className="w-full bg-[#322e28] text-white py-3 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-[#1E293B] transition-colors cursor-pointer">
-                      Book Now
-                    </button>
-                  </div>
-
-                  {/* Sealdah */}
-                  <div className="bg-[#f8f0e5] p-4 sm:p-6 rounded-2xl hover:bg-[#efe7dc] transition-colors group">
-                    <div className="flex items-center gap-3 mb-4">
-                      <div className="w-10 h-10 bg-white rounded-full flex items-center justify-center shadow-sm">
-                        <span className="material-symbols-outlined text-[#994100]">train</span>
-                      </div>
-                      <h4 className="font-headline font-bold text-lg">Sealdah</h4>
-                    </div>
-                    <div className="flex gap-4 mb-5">
-                      <div className="flex-1 bg-white p-3 rounded-xl text-center">
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-[#7b766e] mb-1">Non-AC</div>
-                        <div className="text-xl font-headline font-bold text-[#322e28]">₹1,400</div>
-                      </div>
-                      <div className="flex-1 bg-gradient-to-br from-[#994100] to-[#ff7a23] p-3 rounded-xl text-center text-white">
-                        <div className="text-[10px] font-bold uppercase tracking-widest text-white/70 mb-1">AC</div>
-                        <div className="text-xl font-headline font-bold">₹1,500</div>
-                      </div>
-                    </div>
-                    <button onClick={() => window.open(`https://wa.me/917003692464?text=${encodeURIComponent('Hi, I want to book a Pick & Drop to/from Sealdah. Non-AC: ₹1400 / AC: ₹1500')}`, '_blank')} className="w-full bg-[#322e28] text-white py-3 rounded-full font-bold text-sm uppercase tracking-widest hover:bg-[#1E293B] transition-colors cursor-pointer">
-                      Book Now
-                    </button>
-                  </div>
+                  ))}
                 </div>
               </div>
             ) : (
@@ -666,6 +686,45 @@ function CalculatePage() {
                 {/* Results */}
                 {showResult && calculation && (
                   <div className="mt-12 pt-10 border-t border-[#efe7dc]">
+                    {/* Trip Details Banner (from hero booking bar) */}
+                    {(tripPickup || tripDate || tripTime) && (
+                      <div className="bg-gradient-to-r from-[#994100]/10 to-[#ff7a23]/10 border border-[#994100]/15 p-4 sm:p-6 rounded-2xl mb-8">
+                        <div className="flex items-center gap-2 mb-3">
+                          <span className="material-symbols-outlined text-[#994100]">route</span>
+                          <h3 className="font-headline font-bold text-[#322e28]">Your Trip Details</h3>
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
+                          {tripPickup && (
+                            <div className="md:col-span-2 flex items-center gap-2 bg-white/70 px-3 py-2 rounded-xl">
+                              <span className="material-symbols-outlined text-[#994100] text-base">pin_drop</span>
+                              <div>
+                                <div className="text-[10px] font-bold uppercase tracking-widest text-[#7b766e]">Trip Route</div>
+                                <div className="text-sm font-medium text-[#322e28] truncate max-w-[200px] sm:max-w-[400px]" title={tripPickup}>{tripPickup}</div>
+                              </div>
+                            </div>
+                          )}
+                          {tripDate && (
+                            <div className="flex items-center gap-2 bg-white/70 px-3 py-2 rounded-xl">
+                              <span className="material-symbols-outlined text-[#994100] text-base">calendar_today</span>
+                              <div>
+                                <div className="text-[10px] font-bold uppercase tracking-widest text-[#7b766e]">Date</div>
+                                <div className="text-sm font-medium text-[#322e28]">{tripDate}</div>
+                              </div>
+                            </div>
+                          )}
+                          {tripTime && (
+                            <div className="flex items-center gap-2 bg-white/70 px-3 py-2 rounded-xl">
+                              <span className="material-symbols-outlined text-[#994100] text-base">schedule</span>
+                              <div>
+                                <div className="text-[10px] font-bold uppercase tracking-widest text-[#7b766e]">Time</div>
+                                <div className="text-sm font-medium text-[#322e28]">{tripTime}</div>
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                      </div>
+                    )}
+
                     <h3 className="font-headline text-2xl font-extrabold mb-8 text-[#322e28]">Your Fare Breakdown</h3>
                     <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
                       <div className="bg-[#f8f0e5] p-5 rounded-2xl">
@@ -695,7 +754,16 @@ function CalculatePage() {
                         Best package applied: {calculation.appliedPackage.hours}h / {calculation.appliedPackage.km}km
                       </div>
                     )}
-                    <button onClick={() => window.open(`https://wa.me/917003692464?text=${encodeURIComponent(`Hi, I'd like to book a ${packageType === 'outstation' ? 'Outstation' : 'Local'} trip.\nCar: ${carType === 'sedan' ? 'Sedan' : 'SUV'} | AC: ${isAc ? 'Yes' : 'No'}\nHours: ${hours} | KM: ${km}\nTotal Fare: ₹${calculation.finalTotal}`)}`, '_blank')} className="w-full mt-8 bg-[#322e28] text-white py-5 rounded-full font-bold text-lg uppercase tracking-widest hover:bg-[#1E293B] transition-colors cursor-pointer">
+                    <button onClick={() => {
+                      let msg = `Hi, I'd like to book a ${packageType === 'outstation' ? 'Outstation' : 'Local'} trip.`;
+                      if (tripPickup) msg += `\nTrip Route: ${tripPickup}`;
+                      if (tripDate) msg += `\nDate: ${tripDate}`;
+                      if (tripTime) msg += `\nTime: ${tripTime}`;
+                      msg += `\nCar: ${carType === 'sedan' ? 'Sedan' : 'SUV'} | AC: ${isAc ? 'Yes' : 'No'}`;
+                      msg += `\nHours: ${hours} | KM: ${km}`;
+                      msg += `\nTotal Fare: ₹${calculation.finalTotal}`;
+                      window.open(`https://wa.me/917003692464?text=${encodeURIComponent(msg)}`, '_blank');
+                    }} className="w-full mt-8 bg-[#322e28] text-white py-5 rounded-full font-bold text-lg uppercase tracking-widest hover:bg-[#1E293B] transition-colors cursor-pointer">
                       Reserve Now
                     </button>
                   </div>
