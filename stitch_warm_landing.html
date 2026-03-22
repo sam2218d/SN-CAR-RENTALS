@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+
+<html lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>SUVE Travels | Premium Car Rental &amp; Travel Experiences</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&amp;family=Be+Vietnam+Pro:wght@300;400;500;600&amp;family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>body {
+    font-family: "Be+Vietnam+Pro", sans-serif;
+    background-color: #fdf5eb
+    }
+.headline-font {
+    font-family: "Plus Jakarta Sans", sans-serif
+    }
+.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
+    }
+.glass-nav {
+    background: rgba(253, 245, 235, 0.7);
+    backdrop-filter: blur(20px)
+    }
+.editorial-shadow {
+    box-shadow: 0 40px 60px -15px rgba(50, 46, 40, 0.06)
+    }
+.noise-bg {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuD1ql7cblsqVMTmInK2vgE07TPDa81tUlgT2yIOoICIkCde3Af6sUh1rNyUXIp2D9tV9EZEDJHM2CU2k8JVQagebWDiYhA0mUvLjHaxar5_zowVaC5olodUQc_d5NuXQJ8eiaDqYyL3q1ZyDKwNU_U03naA-izOPBjphqofIQCbuab2Ar5yY1zEt8RmNpisRA9vBG1Mnr9VMLV-z35d0iwhLC8TXFzVwDLjLK-J8zFf674_MZRacnYV5qlyHOxGV5FvZWCsX_TGdHo);
+    opacity: 0.03;
+    pointer-events: none
+    }</style>
+<script id="tailwind-config">
+        tailwind.config = {
+          darkMode: "class",
+          theme: {
+            extend: {
+              colors: {
+                "error": "#b02500",
+                "surface-container-high": "#eae1d5",
+                "on-primary": "#fff0e9",
+                "surface-container-highest": "#e4dccf",
+                "on-surface": "#322e28",
+                "tertiary-container": "#febb28",
+                "on-secondary": "#fff0e8",
+                "surface-container-low": "#f8f0e5",
+                "primary-fixed-dim": "#f06c0b",
+                "on-primary-fixed-variant": "#4e1e00",
+                "inverse-surface": "#100e09",
+                "surface-bright": "#fdf5eb",
+                "surface-tint": "#994100",
+                "tertiary": "#795500",
+                "secondary-fixed-dim": "#ffb37c",
+                "surface-variant": "#e4dccf",
+                "on-background": "#322e28",
+                "primary": "#994100",
+                "on-surface-variant": "#5f5b53",
+                "on-tertiary": "#fff1de",
+                "secondary": "#904800",
+                "secondary-container": "#ffc69f",
+                "secondary-fixed": "#ffc69f",
+                "on-secondary-container": "#723800",
+                "inverse-primary": "#f77113",
+                "primary-container": "#ff7a23",
+                "on-error-container": "#520c00",
+                "surface-container-lowest": "#ffffff",
+                "error-container": "#f95630",
+                "on-tertiary-container": "#563b00",
+                "surface-container": "#efe7dc",
+                "background": "#fdf5eb",
+                "tertiary-dim": "#694a00",
+                "surface": "#fdf5eb",
+                "primary-fixed": "#ff7a23",
+                "tertiary-fixed": "#febb28",
+                "primary-dim": "#863800",
+                "on-primary-fixed": "#000000",
+                "on-primary-container": "#3f1700",
+                "on-secondary-fixed-variant": "#7f3f00",
+                "error-dim": "#b92902",
+                "on-error": "#ffefec",
+                "secondary-dim": "#7e3e00",
+                "on-secondary-fixed": "#552800",
+                "outline-variant": "#b3aca3",
+                "tertiary-fixed-dim": "#efad16",
+                "on-tertiary-fixed-variant": "#614400",
+                "surface-dim": "#dcd3c6",
+                "outline": "#7b766e",
+                "on-tertiary-fixed": "#3c2900",
+                "inverse-on-surface": "#a29c93"
+              },
+              fontFamily: {
+                "headline": ["Plus Jakarta Sans"],
+                "body": ["Be Vietnam Pro"],
+                "label": ["Be Vietnam Pro"]
+              },
+              borderRadius: {"DEFAULT": "1rem", "lg": "2rem", "xl": "3rem", "full": "9999px"},
+            },
+          },
+        }
+    </script>
+</head>
+<body class="text-on-surface">
+<div class="fixed inset-0 noise-bg z-[100]"></div>
+<!-- Navigation Shell -->
+<nav class="fixed top-0 w-full z-50 bg-[#fdf5eb]/70 backdrop-blur-xl shadow-[0_20px_50px_rgba(50,46,40,0.04)]">
+<div class="flex justify-between items-center px-8 py-4 max-w-7xl mx-auto">
+<div class="text-2xl font-black tracking-tighter text-orange-600 headline-font">SUVE Travels</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-orange-700 font-bold border-b-2 border-orange-500 pb-1 font-['Plus_Jakarta_Sans'] text-sm tracking-tight" href="#">Home</a>
+<a class="text-slate-700 hover:text-orange-600 transition-colors font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight" href="#">Services</a>
+<a class="text-slate-700 hover:text-orange-600 transition-colors font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight" href="#">About</a>
+<a class="text-slate-700 hover:text-orange-600 transition-colors font-['Plus_Jakarta_Sans'] text-sm font-medium tracking-tight" href="#">Contact</a>
+</div>
+<button class="bg-gradient-to-br from-primary to-primary-container text-white px-6 py-2.5 rounded-full font-bold text-sm hover:scale-95 active:scale-90 transition-transform">
+                Book Now
+            </button>
+</div>
+</nav>
+<!-- Hero Section -->
+<section class="relative min-h-screen flex items-center pt-20 overflow-hidden bg-gradient-to-b from-[#FFF7ED] to-[#FFF1E6]">
+<div class="max-w-7xl mx-auto px-8 w-full grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+<div class="relative z-10">
+<span class="inline-block px-4 py-1.5 rounded-full bg-tertiary-container text-on-tertiary-container text-xs font-bold tracking-widest uppercase mb-6">Premium Travel Agency</span>
+<h1 class="headline-font text-6xl md:text-7xl font-extrabold text-on-surface leading-[1.1] tracking-tight mb-6">
+                    Your Journey <br/><span class="text-primary">Begins Here</span>
+</h1>
+<p class="text-lg text-on-surface-variant max-w-lg mb-10 leading-relaxed font-body">
+                    Experience the ultimate comfort and freedom with our premium fleet. We curate memories, not just destinations.
+                </p>
+<div class="flex flex-wrap gap-4">
+<button class="bg-gradient-to-br from-primary to-primary-container text-white px-8 py-4 rounded-full font-bold flex items-center gap-2 hover:scale-105 transition-transform shadow-lg shadow-primary/20">
+                        Book Now <span class="material-symbols-outlined text-xl">arrow_right_alt</span>
+</button>
+<button class="bg-surface-container-lowest text-on-surface border border-outline-variant/15 px-8 py-4 rounded-full font-bold hover:bg-surface-container transition-colors">
+                        Explore Fleet
+                    </button>
+</div>
+</div>
+<div class="relative">
+<div class="relative rounded-lg overflow-hidden editorial-shadow transform rotate-2">
+<img class="w-full h-[500px] object-cover" data-alt="Happy traveler standing by a vintage car in a scenic desert landscape" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAJRUdMHP2vNBbBDwpE0kcRZacjCLCteuEWlcjzEZ9jcO616dXIgy4N8qr78EJd_3DTg0ApigFFaey33FMaiqGO24xuNn5LZiv2JwUd-lyOax9Es3sTwy7B3zVayiphY4TgWlu5zCm1xfWQT_zfXZOd85t2c2-67iIr_zycvd38ELlXzXRAYhRlfBEprwbiiiuKQW7-cqJd2_gIjKNaNadggAvJt1gsl7-OFA4Cqr-KHyvZLr3rPwnxhIMgMO_f_uO2Adwh613P-tM"/>
+<!-- Floating Badge -->
+<div class="absolute top-8 -left-8 bg-surface-container-lowest p-6 rounded-lg editorial-shadow transform -rotate-6 flex flex-col items-center">
+<div class="flex gap-1 mb-1">
+<span class="material-symbols-outlined text-tertiary text-sm" data-weight="fill">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" data-weight="fill">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" data-weight="fill">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" data-weight="fill">star</span>
+<span class="material-symbols-outlined text-tertiary text-sm" data-weight="fill">star</span>
+</div>
+<span class="font-bold text-on-surface text-sm">100% Trusted</span>
+</div>
+</div>
+<!-- Decorative Elements -->
+<div class="absolute -bottom-6 -right-6 w-32 h-32 bg-secondary-container rounded-full opacity-30 blur-3xl -z-10"></div>
+<div class="absolute top-0 right-0 p-4">
+<div class="grid grid-cols-3 gap-2">
+<div class="w-2 h-2 rounded-full bg-primary/20"></div>
+<div class="w-2 h-2 rounded-full bg-primary/20"></div>
+<div class="w-2 h-2 rounded-full bg-primary/20"></div>
+<div class="w-2 h-2 rounded-full bg-primary/20"></div>
+<div class="w-2 h-2 rounded-full bg-primary/20"></div>
+<div class="w-2 h-2 rounded-full bg-primary/20"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Services Section -->
+<section class="py-24 bg-surface">
+<div class="max-w-7xl mx-auto px-8">
+<div class="text-center mb-16">
+<span class="text-primary font-bold tracking-widest uppercase text-xs">World Class Services</span>
+<h2 class="headline-font text-4xl font-extrabold text-on-surface mt-2">Which Services We Provide</h2>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Local City Tours -->
+<div class="bg-surface-container-lowest p-10 rounded-lg editorial-shadow hover:-translate-y-2 transition-transform">
+<div class="w-14 h-14 bg-surface-container-high rounded-full flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-primary text-3xl">map</span>
+</div>
+<h3 class="headline-font text-xl font-bold mb-4">Local City Tours</h3>
+<p class="text-on-surface-variant font-body leading-relaxed">Tailored explorations within city limits, discovering hidden gems and iconic landmarks.</p>
+</div>
+<!-- Outstation Trips (Highlighted) -->
+<div class="bg-gradient-to-br from-primary to-primary-container p-10 rounded-lg editorial-shadow text-white hover:-translate-y-2 transition-transform transform md:scale-105">
+<div class="w-14 h-14 bg-white/20 rounded-full flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-white text-3xl">distance</span>
+</div>
+<h3 class="headline-font text-xl font-bold mb-4 text-on-primary">Outstation Trips</h3>
+<p class="text-on-primary/80 font-body leading-relaxed">Comfortable long-distance travel designed for weekend getaways and scenic road trips.</p>
+</div>
+<!-- Airport Transfers -->
+<div class="bg-surface-container-lowest p-10 rounded-lg editorial-shadow hover:-translate-y-2 transition-transform">
+<div class="w-14 h-14 bg-surface-container-high rounded-full flex items-center justify-center mb-8">
+<span class="material-symbols-outlined text-primary text-3xl">flight_takeoff</span>
+</div>
+<h3 class="headline-font text-xl font-bold mb-4">Airport Transfers</h3>
+<p class="text-on-surface-variant font-body leading-relaxed">Reliable pick and drop services ensuring you reach your flight comfortably and on time.</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Why Choose Us Section -->
+<section class="py-24 bg-surface-container-low overflow-hidden">
+<div class="max-w-7xl mx-auto px-8 grid grid-cols-1 md:grid-cols-2 gap-20 items-center">
+<div class="order-2 md:order-1 relative">
+<div class="relative w-full aspect-square max-w-md mx-auto">
+<div class="absolute inset-0 rounded-full border-2 border-dashed border-primary/20 animate-spin-slow"></div>
+<img class="w-full h-full object-cover rounded-full p-4" data-alt="Aerial view of a car driving through a beautiful winding mountain road" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlWlHPmkR3Bt9ehZeln-SG9URKjJidLNtmxWAFrHN723Sp_conanWnB-_7CHeyhSWD-mOzqJQ1YahaQXEPwL80tjXG8BkPYbnQstj-shbriN_xzJ3Jx2rlbZJSGre3YBXokm4ERG4RCUJ1BlYCm-IekBeHXaUZFjWZMgueBL_2eNTGhcfzu3jH6mT-1E6BNZDw3cdcdSf25q4MLSJ0DPK7viFFWB3dzQx7DcP2Xqah08ZnrdlJs-kqBb41sp5T9vx6ZbzQAppjBBA"/>
+<!-- Spinning Badge (Conceptual Overlay) -->
+<div class="absolute -bottom-4 -right-4 w-32 h-32 bg-tertiary-container rounded-full flex items-center justify-center p-4 text-center">
+<p class="text-[10px] font-black uppercase text-on-tertiary-container leading-tight">Best Rated Travel Agency 2024</p>
+</div>
+</div>
+</div>
+<div class="order-1 md:order-2">
+<h2 class="headline-font text-4xl md:text-5xl font-extrabold text-on-surface mb-8 leading-tight">
+                    Creating Memories <br/>You'll Want Revisit
+                </h2>
+<div class="space-y-8">
+<div class="flex gap-6">
+<div class="flex-shrink-0 w-12 h-12 bg-surface-container-lowest rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary">verified_user</span>
+</div>
+<div>
+<h4 class="headline-font font-bold text-lg mb-1">Professional Drivers</h4>
+<p class="text-on-surface-variant font-body text-sm">Highly trained and verified chauffeurs for your absolute safety.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="flex-shrink-0 w-12 h-12 bg-surface-container-lowest rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary">support_agent</span>
+</div>
+<div>
+<h4 class="headline-font font-bold text-lg mb-1">24/7 Availability</h4>
+<p class="text-on-surface-variant font-body text-sm">Round-the-clock support and bookings whenever you need us.</p>
+</div>
+</div>
+<div class="flex gap-6">
+<div class="flex-shrink-0 w-12 h-12 bg-surface-container-lowest rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-primary">payments</span>
+</div>
+<div>
+<h4 class="headline-font font-bold text-lg mb-1">Transparent Pricing</h4>
+<p class="text-on-surface-variant font-body text-sm">No hidden costs. What you see is exactly what you pay.</p>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Fleet Preview Section -->
+<section class="py-24 bg-surface">
+<div class="max-w-7xl mx-auto px-8">
+<div class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+<div>
+<span class="text-primary font-bold tracking-widest uppercase text-xs">Our Luxury Collection</span>
+<h2 class="headline-font text-4xl font-extrabold text-on-surface mt-2">Choose Your Perfect Ride</h2>
+</div>
+<button class="text-primary font-bold flex items-center gap-2 hover:underline">
+                    View Entire Fleet <span class="material-symbols-outlined">trending_flat</span>
+</button>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+<!-- Fleet Card 1 -->
+<div class="bg-surface-container-low rounded-lg overflow-hidden transition-all hover:bg-surface-container-lowest hover:editorial-shadow group">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Modern executive black sedan car parked in a minimalist environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBmMbz0Dliyn3-jegiF9-v_HdSuxLRCNR-v3FvOuHBLpsEvKX_StKHgLUiD5Vd7m5wnt59YxUaLhnhArs2ZpJ8F33CXvqoM5HJCI_aTzPc0i4ZlrvQYpfsBDlKl0ERfEYuBreFqm24oc85Dfp5qMvsesWNDv7mZPVappP_WKbksNFmef51_fFjT7ZwlHDFB36nMNEPG9-HDfZlpfE3cSCBaJD0IABEQUJ4SFIWaWrCj5hUdbHQS1PUiFs9maddXFBD-5nbjFk4e04"/>
+</div>
+<div class="p-8">
+<h3 class="headline-font text-xl font-bold mb-4">Executive Sedan</h3>
+<div class="flex flex-wrap gap-4 mb-8">
+<div class="flex items-center gap-1.5 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-lg">event_seat</span> 4 Seats
+                            </div>
+<div class="flex items-center gap-1.5 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-lg">ac_unit</span> AC
+                            </div>
+<div class="flex items-center gap-1.5 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-lg">luggage</span> 2 Bags
+                            </div>
+</div>
+<a class="inline-block text-primary font-bold border-b border-primary/20 pb-1 hover:border-primary transition-colors" href="#">View Details</a>
+</div>
+</div>
+<!-- Fleet Card 2 -->
+<div class="bg-surface-container-low rounded-lg overflow-hidden transition-all hover:bg-surface-container-lowest hover:editorial-shadow group">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Luxury SUV driving on a coastal road during sunset" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5YJcSaDhIRtqI_ZMqKMgGhUcp9XbMqT2TC1SWcCg68J9lH3PgG9WM-R3j5JRPY7giikC3MjYEl_nu5_20al8FxXRDiizwTUMdY7Qgu5UDHfmu-0DFeRasRmpQ46D7e-h2PF21FMTKcCgM2mTUtFPfnGHXy87raHuROHMllha2_5d84zk1q-qhmRLG7jatQPizPlx6SuFgnOZ1rqOs0ZBbnqKxDRZyGled63mLNcgeaaAdAm3dKOEMj3c99da5v8c3bkEWCFZx13w"/>
+<div class="absolute top-4 right-4 bg-tertiary-container text-on-tertiary-container text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Popular</div>
+</div>
+<div class="p-8">
+<h3 class="headline-font text-xl font-bold mb-4">Luxury SUV</h3>
+<div class="flex flex-wrap gap-4 mb-8">
+<div class="flex items-center gap-1.5 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-lg">event_seat</span> 7 Seats
+                            </div>
+<div class="flex items-center gap-1.5 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-lg">ac_unit</span> AC
+                            </div>
+<div class="flex items-center gap-1.5 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-lg">luggage</span> 4 Bags
+                            </div>
+</div>
+<a class="inline-block text-primary font-bold border-b border-primary/20 pb-1 hover:border-primary transition-colors" href="#">View Details</a>
+</div>
+</div>
+<!-- Fleet Card 3 -->
+<div class="bg-surface-container-low rounded-lg overflow-hidden transition-all hover:bg-surface-container-lowest hover:editorial-shadow group">
+<div class="relative h-64 overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" data-alt="Premium silver hatchback car in a modern city street" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAwiTqdkozgl7M_PzweVsk3TkeLN1xVmFEs7ByeAbaHx8TsHLgvSXXiG4KoB_CugyLGH2cd1s2H5OCG77MCfvNpIDfTXV1vmTZBznfpoXFoMVfK-MGV7tDvLW0yAS7uORtU1nfw70ihY-SwcfXM9NRIuIpkA6DsK4DaI7ZK5PWweFObSe3Sob1sR6ViNT6TC_fE2n3JHm5_p36OtnhkXuNpIq-IzDWAYtirVbZGs4DB53GuP9pldek3YizARVYha92AtErLTmZEIk"/>
+</div>
+<div class="p-8">
+<h3 class="headline-font text-xl font-bold mb-4">Premium Hatchback</h3>
+<div class="flex flex-wrap gap-4 mb-8">
+<div class="flex items-center gap-1.5 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-lg">event_seat</span> 4 Seats
+                            </div>
+<div class="flex items-center gap-1.5 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-lg">ac_unit</span> AC
+                            </div>
+<div class="flex items-center gap-1.5 text-on-surface-variant text-sm">
+<span class="material-symbols-outlined text-lg">luggage</span> 1 Bag
+                            </div>
+</div>
+<a class="inline-block text-primary font-bold border-b border-primary/20 pb-1 hover:border-primary transition-colors" href="#">View Details</a>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Footer -->
+<footer class="bg-[#1E293B] text-slate-300 py-16">
+<div class="max-w-7xl mx-auto px-8">
+<div class="grid grid-cols-1 md:grid-cols-4 gap-12 mb-16">
+<div class="col-span-1 md:col-span-1">
+<div class="text-2xl font-bold text-white headline-font mb-6">SUVE Travels</div>
+<p class="text-slate-400 font-body leading-relaxed mb-6">Redefining luxury travel and car rentals across the globe since 2024.</p>
+<div class="flex gap-4">
+<div class="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center hover:bg-primary hover:border-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm">public</span>
+</div>
+<div class="w-10 h-10 rounded-full border border-slate-700 flex items-center justify-center hover:bg-primary hover:border-primary transition-colors cursor-pointer">
+<span class="material-symbols-outlined text-sm">alternate_email</span>
+</div>
+</div>
+</div>
+<div>
+<h5 class="text-white font-bold mb-6 headline-font">Company</h5>
+<ul class="space-y-4 font-body text-sm">
+<li><a class="hover:text-primary transition-colors" href="#">About Us</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Our Fleet</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Careers</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Travel Blog</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-white font-bold mb-6 headline-font">Services</h5>
+<ul class="space-y-4 font-body text-sm">
+<li><a class="hover:text-primary transition-colors" href="#">Local City Tours</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Airport Pickups</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Luxury Charters</a></li>
+<li><a class="hover:text-primary transition-colors" href="#">Wedding Cars</a></li>
+</ul>
+</div>
+<div>
+<h5 class="text-white font-bold mb-6 headline-font">Contact</h5>
+<ul class="space-y-4 font-body text-sm">
+<li class="flex items-start gap-3">
+<span class="material-symbols-outlined text-primary text-lg">location_on</span>
+<span>123 Editorial Plaza, <br/>London, UK</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-lg">call</span>
+<span>+1 (234) 567-890</span>
+</li>
+<li class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary text-lg">mail</span>
+<span>hello@suvetravels.com</span>
+</li>
+</ul>
+</div>
+</div>
+<div class="border-t border-slate-800 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">
+<p class="text-xs text-slate-500">© 2024 SUVE Travels. All rights reserved.</p>
+<div class="flex gap-8 text-xs text-slate-500">
+<a class="hover:text-white transition-colors" href="#">Privacy Policy</a>
+<a class="hover:text-white transition-colors" href="#">Terms of Service</a>
+</div>
+</div>
+</div>
+</footer>
+</body></html>
