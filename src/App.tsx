@@ -1,7 +1,7 @@
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useSearchParams, Link } from 'react-router-dom';
 
-import { CarType, PackageType, NightChargeType, PRICING, NIGHT_CHARGES, PICK_DROP_RATES, PICK_DROP_RATES_SEDAN, PICK_DROP_RATES_SUV, PICK_DROP_RATES_SCORPIO, NIGHT_CHARGES_SEDAN, NIGHT_CHARGES_SUV, NIGHT_CHARGES_SCORPIO } from './pricingConfig';
+import { CarType, PackageType, NightChargeType, PRICING, NIGHT_CHARGES, PICK_DROP_RATES, PICK_DROP_RATES_SEDAN, PICK_DROP_RATES_SUV, PICK_DROP_RATES_SCORPIO, NIGHT_CHARGES_SEDAN, NIGHT_CHARGES_SUV, NIGHT_CHARGES_SCORPIO, CAR_TYPE_LABELS } from './pricingConfig';
 
 // ============================================================
 // NAVBAR COMPONENT
@@ -12,7 +12,10 @@ function Navbar() {
   return (
     <nav className="fixed top-0 w-full z-50 bg-[#fdf5eb]/70 backdrop-blur-xl shadow-[0_20px_50px_rgba(50,46,40,0.04)]">
       <div className="flex justify-between items-center px-4 sm:px-8 py-3 sm:py-4 max-w-7xl mx-auto">
-        <Link to="/" className="text-lg sm:text-2xl font-black tracking-tighter text-orange-600 font-headline">SN CAR RENTALs</Link>
+        <Link to="/" className="flex items-center gap-3">
+          <img src="/images/logo.png" alt="SN Car Rentals" className="h-10 sm:h-12 w-auto object-contain drop-shadow-md rounded-full border border-[#994100]/20" />
+          <span className="font-headline font-black tracking-tighter text-[#994100] text-lg sm:text-2xl mt-0.5">SN CAR RENTALS</span>
+        </Link>
         <div className="hidden md:flex items-center gap-8">
           <Link to="/" className="text-orange-700 font-bold border-b-2 border-orange-500 pb-1 font-headline text-sm tracking-tight">Home</Link>
           <a className="text-slate-700 hover:text-orange-600 transition-colors font-headline text-sm font-medium tracking-tight cursor-pointer" href="#services">Services</a>
@@ -147,15 +150,170 @@ const TestimonialCard = ({ text, name, role, image }: { key?: string | number; t
   </div>
 );
 
+// Inline Fare Chart for Home Page
+function HomeFareChart() {
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<CarType>('sedan');
+  const data = PRICING[activeTab];
+  const nightCharges = activeTab === 'scorpio' ? NIGHT_CHARGES_SCORPIO : (activeTab === 'suv' ? NIGHT_CHARGES_SUV : NIGHT_CHARGES_SEDAN);
+
+  return (
+    <section id="fare-chart" className="py-12 sm:py-24 bg-[#fdf5eb]">
+      <div className="max-w-5xl mx-auto px-4 sm:px-8">
+        <div className="mb-6 sm:mb-10 text-center">
+          <span className="text-[#994100] font-bold tracking-widest uppercase text-xs">Transparent Pricing</span>
+          <h2 className="font-headline text-2xl sm:text-4xl font-extrabold text-[#322e28] mt-2">Fare Chart</h2>
+          <p className="text-[#5f5b53] mt-2 sm:mt-3 text-sm sm:text-lg max-w-2xl mx-auto">Complete pricing guide for all our car rental packages. No hidden charges.</p>
+        </div>
+
+        {/* Car Type Tabs */}
+        <div className="flex flex-wrap justify-center gap-3 mb-8 sm:mb-12">
+          {(Object.keys(CAR_TYPE_LABELS) as CarType[]).map((type) => (
+            <button
+              key={type}
+              onClick={() => setActiveTab(type)}
+              className={`px-4 sm:px-6 py-3 sm:py-4 rounded-2xl font-headline font-bold text-sm sm:text-base transition-all cursor-pointer ${
+                activeTab === type
+                  ? 'bg-gradient-to-br from-[#994100] to-[#ff7a23] text-white shadow-lg shadow-orange-500/20 scale-105'
+                  : 'bg-white text-[#322e28] hover:bg-[#f8f0e5] border border-[#efe7dc]'
+              }`}
+            >
+              <span className="material-symbols-outlined align-middle mr-2 text-lg">{CAR_TYPE_LABELS[type].icon}</span>
+              {CAR_TYPE_LABELS[type].name}
+            </button>
+          ))}
+        </div>
+
+        {/* Local Packages Table */}
+        <div className="bg-white rounded-[2rem] shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] overflow-hidden mb-8">
+          <div className="bg-gradient-to-r from-[#994100] to-[#ff7a23] px-6 sm:px-8 py-5">
+            <div className="flex items-center gap-3">
+              <span className="material-symbols-outlined text-white text-2xl">local_taxi</span>
+              <div>
+                <h3 className="font-headline text-lg sm:text-xl font-bold text-white">Local Packages</h3>
+                <p className="text-white/70 text-xs sm:text-sm">City rental rates with hours & KM limits</p>
+              </div>
+            </div>
+          </div>
+          <div className="overflow-x-auto">
+            <table className="w-full text-sm">
+              <thead>
+                <tr className="bg-[#f8f0e5]">
+                  <th className="px-4 sm:px-6 py-4 text-left font-headline font-bold text-[#322e28] text-xs uppercase tracking-widest">Package</th>
+                  <th className="px-4 sm:px-6 py-4 text-center font-headline font-bold text-[#322e28] text-xs uppercase tracking-widest">
+                    <span className="inline-flex items-center gap-1"><span className="material-symbols-outlined text-sm text-[#7b766e]">ac_unit</span> Non-AC</span>
+                  </th>
+                  <th className="px-4 sm:px-6 py-4 text-center font-headline font-bold text-[#322e28] text-xs uppercase tracking-widest">
+                    <span className="inline-flex items-center gap-1"><span className="material-symbols-outlined text-sm text-[#994100]">ac_unit</span> AC</span>
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.packages.map((pkg, i) => (
+                  <tr key={i} className={`border-t border-[#efe7dc] ${i % 2 === 0 ? '' : 'bg-[#fdf8f3]'} hover:bg-[#fef6ec] transition-colors`}>
+                    <td className="px-4 sm:px-6 py-4">
+                      <div className="font-headline font-bold text-[#322e28]">{pkg.label || `${pkg.hours} Hours / ${pkg.km} KM`}</div>
+                      {!pkg.label && <div className="text-[#7b766e] text-xs mt-0.5">{pkg.hours}hrs or {pkg.km}km limit</div>}
+                    </td>
+                    <td className="px-4 sm:px-6 py-4 text-center">
+                      <span className="font-headline font-bold text-lg text-[#322e28]">₹{pkg.nonAc.toLocaleString('en-IN')}</span>
+                    </td>
+                    <td className="px-4 sm:px-6 py-4 text-center">
+                      <span className="inline-block bg-gradient-to-br from-[#994100] to-[#ff7a23] text-white font-headline font-bold text-lg px-4 py-1 rounded-full">₹{pkg.ac.toLocaleString('en-IN')}</span>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        {/* Extra Charges */}
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8">
+          <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-[0_20px_40px_-15px_rgba(50,46,40,0.04)] border border-[#efe7dc]">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-10 h-10 bg-[#f8f0e5] rounded-full flex items-center justify-center"><span className="material-symbols-outlined text-[#994100]">schedule</span></div>
+              <h3 className="font-headline font-bold text-[#322e28]">Extra Hours</h3>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center bg-[#f8f0e5] px-4 py-2.5 rounded-xl"><span className="text-[#7b766e] text-sm font-medium">Non-AC</span><span className="font-headline font-bold text-[#322e28]">₹{data.extraHour.nonAc}/hr</span></div>
+              <div className="flex justify-between items-center bg-gradient-to-r from-[#994100]/10 to-[#ff7a23]/10 px-4 py-2.5 rounded-xl"><span className="text-[#994100] text-sm font-medium">AC</span><span className="font-headline font-bold text-[#994100]">₹{data.extraHour.ac}/hr</span></div>
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-[0_20px_40px_-15px_rgba(50,46,40,0.04)] border border-[#efe7dc]">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-10 h-10 bg-[#f8f0e5] rounded-full flex items-center justify-center"><span className="material-symbols-outlined text-[#994100]">speed</span></div>
+              <h3 className="font-headline font-bold text-[#322e28]">Extra KM (Local)</h3>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center bg-[#f8f0e5] px-4 py-2.5 rounded-xl"><span className="text-[#7b766e] text-sm font-medium">Non-AC</span><span className="font-headline font-bold text-[#322e28]">₹{data.extraKmLocal.nonAc}/km</span></div>
+              <div className="flex justify-between items-center bg-gradient-to-r from-[#994100]/10 to-[#ff7a23]/10 px-4 py-2.5 rounded-xl"><span className="text-[#994100] text-sm font-medium">AC</span><span className="font-headline font-bold text-[#994100]">₹{data.extraKmLocal.ac}/km</span></div>
+            </div>
+          </div>
+          <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-[0_20px_40px_-15px_rgba(50,46,40,0.04)] border border-[#efe7dc]">
+            <div className="flex items-center gap-2 mb-4">
+              <div className="w-10 h-10 bg-[#f8f0e5] rounded-full flex items-center justify-center"><span className="material-symbols-outlined text-[#994100]">distance</span></div>
+              <h3 className="font-headline font-bold text-[#322e28]">Outstation KM</h3>
+            </div>
+            <div className="space-y-2">
+              <div className="flex justify-between items-center bg-[#f8f0e5] px-4 py-2.5 rounded-xl"><span className="text-[#7b766e] text-sm font-medium">Non-AC</span><span className="font-headline font-bold text-[#322e28]">₹{data.outstationKm.nonAc}/km</span></div>
+              <div className="flex justify-between items-center bg-gradient-to-r from-[#994100]/10 to-[#ff7a23]/10 px-4 py-2.5 rounded-xl"><span className="text-[#994100] text-sm font-medium">AC</span><span className="font-headline font-bold text-[#994100]">₹{data.outstationKm.ac}/km</span></div>
+            </div>
+          </div>
+        </div>
+
+        {/* Night Charges */}
+        <div className="bg-gradient-to-br from-[#1a1625] to-[#2d2640] rounded-[2rem] p-6 sm:p-8 mb-8 text-white relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl"></div>
+          <div className="absolute bottom-0 right-0 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl"></div>
+          <div className="relative z-10">
+            <div className="flex items-center gap-3 mb-6">
+              <span className="material-symbols-outlined text-indigo-300 text-2xl">dark_mode</span>
+              <h3 className="font-headline text-lg sm:text-xl font-bold">Night Charges</h3>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="bg-white/8 backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:bg-white/12 transition-colors">
+                <div className="flex items-center gap-2 mb-2"><span className="material-symbols-outlined text-amber-300 text-lg">bedtime</span><h4 className="font-headline font-bold text-sm">Half Night</h4></div>
+                <div className="text-3xl font-headline font-bold text-white mb-1">₹{nightCharges.half.amount}</div>
+                <p className="text-slate-400 text-xs">{nightCharges.half.desc}</p>
+              </div>
+              <div className="bg-white/8 backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:bg-white/12 transition-colors">
+                <div className="flex items-center gap-2 mb-2"><span className="material-symbols-outlined text-indigo-300 text-lg">nights_stay</span><h4 className="font-headline font-bold text-sm">Full Night</h4></div>
+                <div className="text-3xl font-headline font-bold text-white mb-1">₹{nightCharges.full.amount}</div>
+                <p className="text-slate-400 text-xs">{nightCharges.full.desc}</p>
+              </div>
+              <div className="bg-gradient-to-br from-indigo-600/30 to-purple-600/30 backdrop-blur-sm border border-indigo-400/20 rounded-2xl p-5 hover:from-indigo-600/40 hover:to-purple-600/40 transition-colors">
+                <div className="flex items-center gap-2 mb-2"><span className="material-symbols-outlined text-purple-300 text-lg">wb_twilight</span><h4 className="font-headline font-bold text-sm">Night + Next Day</h4></div>
+                <div className="text-3xl font-headline font-bold text-white mb-1">₹{nightCharges.nextDay.amount}</div>
+                <p className="text-slate-400 text-xs">{nightCharges.nextDay.desc}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        {/* CTA */}
+        <div className="text-center">
+          <button onClick={() => navigate('/calculate')} className="bg-gradient-to-br from-[#994100] to-[#ff7a23] text-white px-10 py-4 rounded-full font-bold text-base sm:text-lg uppercase tracking-widest shadow-lg shadow-orange-500/20 hover:scale-105 active:scale-95 transition-transform cursor-pointer">
+            Calculate Your Fare
+          </button>
+          <p className="text-[#7b766e] text-xs mt-4">* Terms & conditions apply. Prices subject to change.</p>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 function HomePage() {
   const navigate = useNavigate();
-  const [pickup, setPickup] = useState('');
+  const [pickupFrom, setPickupFrom] = useState('');
+  const [pickupTo, setPickupTo] = useState('');
   const [pickupDate, setPickupDate] = useState('');
   const [pickupTime, setPickupTime] = useState('');
 
   const handleBookNow = () => {
     const params = new URLSearchParams();
-    if (pickup) params.set('pickup', pickup);
+    if (pickupFrom) params.set('from', pickupFrom);
+    if (pickupTo) params.set('to', pickupTo);
     if (pickupDate) params.set('date', pickupDate);
     if (pickupTime) params.set('time', pickupTime);
     navigate(`/calculate?${params.toString()}`);
@@ -180,14 +338,31 @@ function HomePage() {
             {/* Booking Search Bar */}
             <div className="bg-white rounded-2xl md:rounded-full shadow-[0_20px_60px_-15px_rgba(50,46,40,0.15)] border border-[#efe7dc] max-w-3xl">
               <div className="flex flex-col md:flex-row items-stretch">
-                {/* Trip Route */}
-                <div className="flex-[2] px-4 py-3 md:px-5 md:py-4 md:border-r border-b md:border-b-0 border-[#efe7dc] cursor-text">
-                  <label className="block text-xs font-bold text-[#322e28] mb-0.5 font-headline">Trip Route</label>
+                {/* From */}
+                <div className="flex-1 px-4 py-3 md:px-5 md:py-4 md:border-r border-b md:border-b-0 border-[#efe7dc] cursor-text">
+                  <label className="block text-xs font-bold text-[#322e28] mb-0.5 font-headline">From</label>
                   <input
                     type="text"
-                    placeholder="Pickup address to Drop off address..."
-                    value={pickup}
-                    onChange={(e) => setPickup(e.target.value)}
+                    placeholder="Pickup address..."
+                    value={pickupFrom}
+                    onChange={(e) => setPickupFrom(e.target.value)}
+                    className="w-full bg-transparent text-xs text-[#7b766e] placeholder-[#b3aca3] outline-none font-body"
+                  />
+                </div>
+                {/* Swap Icon */}
+                <div className="hidden md:flex items-center justify-center px-1">
+                  <button onClick={() => { const tmp = pickupFrom; setPickupFrom(pickupTo); setPickupTo(tmp); }} className="w-8 h-8 rounded-full bg-[#f8f0e5] flex items-center justify-center hover:bg-[#efe7dc] transition-colors cursor-pointer" title="Swap">
+                    <span className="material-symbols-outlined text-[#994100] text-base">swap_horiz</span>
+                  </button>
+                </div>
+                {/* To */}
+                <div className="flex-1 px-4 py-3 md:px-5 md:py-4 md:border-r border-b md:border-b-0 border-[#efe7dc] cursor-text">
+                  <label className="block text-xs font-bold text-[#322e28] mb-0.5 font-headline">To</label>
+                  <input
+                    type="text"
+                    placeholder="Drop off address..."
+                    value={pickupTo}
+                    onChange={(e) => setPickupTo(e.target.value)}
                     className="w-full bg-transparent text-xs text-[#7b766e] placeholder-[#b3aca3] outline-none font-body"
                   />
                 </div>
@@ -258,8 +433,71 @@ function HomePage() {
         </div>
       </section>
 
+      {/* Fleet Preview - Choose Your Perfect Ride */}
+      <section id="fleet" className="py-12 sm:py-24 bg-[#fdf5eb]">
+        <div className="max-w-7xl mx-auto px-4 sm:px-8">
+          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+            <div>
+              <span className="text-[#994100] font-bold tracking-widest uppercase text-xs">Our Luxury Collection</span>
+              <h2 className="font-headline text-2xl sm:text-4xl font-extrabold text-[#322e28] mt-2">Choose Your Perfect Ride</h2>
+            </div>
+            <button onClick={() => navigate('/calculate')} className="text-[#994100] font-bold flex items-center gap-2 hover:underline cursor-pointer">
+              View Entire Fleet <span className="material-symbols-outlined">trending_flat</span>
+            </button>
+          </div>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            {/* Sedan & Hatchback */}
+            <div className="bg-[#f8f0e5] rounded-[2rem] overflow-hidden transition-all hover:bg-white hover:shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] group">
+              <div className="relative h-64 overflow-hidden">
+                <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Sedan Car Dzire" src="/images/dzire.png"/>
+              </div>
+              <div className="p-8">
+                <h3 className="font-headline text-xl font-bold mb-4">Sedan & Hatchback</h3>
+                <div className="flex flex-wrap gap-4 mb-8">
+                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">event_seat</span> 4 Seats</div>
+                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">ac_unit</span> AC</div>
+                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">luggage</span> 2 Bags</div>
+                </div>
+                <button onClick={() => navigate('/calculate?car=sedan')} className="inline-block text-[#994100] font-bold border-b border-[#994100]/20 pb-1 hover:border-[#994100] transition-colors cursor-pointer">Book Now</button>
+              </div>
+            </div>
+            {/* SUV 7 Seater - Ertiga */}
+            <div className="bg-[#f8f0e5] rounded-[2rem] overflow-hidden transition-all hover:bg-white hover:shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] group">
+              <div className="relative h-64 overflow-hidden">
+                <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="SUV 7 Seater Ertiga" src="/images/ertiga.png"/>
+                <div className="absolute top-4 right-4 bg-[#febb28] text-[#563b00] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Popular</div>
+              </div>
+              <div className="p-8">
+                <h3 className="font-headline text-xl font-bold mb-4">SUV 7 Seater - Ertiga</h3>
+                <div className="flex flex-wrap gap-4 mb-8">
+                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">event_seat</span> 7 Seats</div>
+                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">ac_unit</span> AC</div>
+                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">luggage</span> 4 Bags</div>
+                </div>
+                <button onClick={() => navigate('/calculate?car=suv')} className="inline-block text-[#994100] font-bold border-b border-[#994100]/20 pb-1 hover:border-[#994100] transition-colors cursor-pointer">Book Now</button>
+              </div>
+            </div>
+            {/* SUV 8/9 Seater - Scorpio */}
+            <div className="bg-[#f8f0e5] rounded-[2rem] overflow-hidden transition-all hover:bg-white hover:shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] group">
+              <div className="relative h-64 overflow-hidden">
+                <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="SUV Scorpio 8/9 Seater" src="/images/scorpio.png"/>
+              </div>
+              <div className="p-8">
+                <h3 className="font-headline text-xl font-bold mb-4">SUV 8/9 Seater - Scorpio</h3>
+                <div className="flex flex-wrap gap-4 mb-8">
+                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">event_seat</span> 8/9 Seats</div>
+                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">ac_unit</span> AC</div>
+                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">luggage</span> 4 Bags</div>
+                </div>
+                <button onClick={() => navigate('/calculate?car=scorpio')} className="inline-block text-[#994100] font-bold border-b border-[#994100]/20 pb-1 hover:border-[#994100] transition-colors cursor-pointer">Book Now</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Why Choose Us */}
-      <section id="why-us" className="py-12 sm:py-24 bg-[#fdf5eb] overflow-hidden">
+      <section id="why-us" className="py-12 sm:py-24 bg-[#f8f0e5] overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 sm:px-8 grid grid-cols-1 md:grid-cols-2 gap-10 sm:gap-20 items-center">
           <div className="order-2 md:order-1 relative">
             <div className="relative w-full aspect-square max-w-md mx-auto">
@@ -308,6 +546,9 @@ function HomePage() {
         </div>
       </section>
 
+      {/* Inline Fare Chart Section */}
+      <HomeFareChart />
+
       {/* Services Section */}
       <section id="services" className="py-10 sm:py-24 bg-[#f8f0e5]">
         <div className="max-w-7xl mx-auto px-4 sm:px-8">
@@ -339,69 +580,6 @@ function HomePage() {
               </div>
               <h3 className="font-headline text-lg sm:text-xl font-bold mb-2 sm:mb-4">Airport & Railway station transfer</h3>
               <p className="text-[#5f5b53] text-xs sm:text-base font-body leading-relaxed">Reliable pick and drop services ensuring you reach your flight comfortably and on time.</p>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Fleet Preview */}
-      <section id="fleet" className="py-12 sm:py-24 bg-[#fdf5eb]">
-        <div className="max-w-7xl mx-auto px-4 sm:px-8">
-          <div className="flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
-            <div>
-              <span className="text-[#994100] font-bold tracking-widest uppercase text-xs">Our Luxury Collection</span>
-              <h2 className="font-headline text-2xl sm:text-4xl font-extrabold text-[#322e28] mt-2">Choose Your Perfect Ride</h2>
-            </div>
-            <button onClick={() => navigate('/calculate')} className="text-[#994100] font-bold flex items-center gap-2 hover:underline cursor-pointer">
-              View Entire Fleet <span className="material-symbols-outlined">trending_flat</span>
-            </button>
-          </div>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Sedan Car - Dzire */}
-            <div className="bg-[#f8f0e5] rounded-[2rem] overflow-hidden transition-all hover:bg-white hover:shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] group">
-              <div className="relative h-64 overflow-hidden">
-                <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Sedan Car Dzire" src="/images/dzire.png"/>
-              </div>
-              <div className="p-8">
-                <h3 className="font-headline text-xl font-bold mb-4">Sedan Car - Dzire</h3>
-                <div className="flex flex-wrap gap-4 mb-8">
-                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">event_seat</span> 4 Seats</div>
-                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">ac_unit</span> AC</div>
-                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">luggage</span> 2 Bags</div>
-                </div>
-                <button onClick={() => navigate('/calculate')} className="inline-block text-[#994100] font-bold border-b border-[#994100]/20 pb-1 hover:border-[#994100] transition-colors cursor-pointer">Book Now</button>
-              </div>
-            </div>
-            {/* SUV 7 Seater - Ertiga */}
-            <div className="bg-[#f8f0e5] rounded-[2rem] overflow-hidden transition-all hover:bg-white hover:shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] group">
-              <div className="relative h-64 overflow-hidden">
-                <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="SUV 7 Seater Ertiga" src="/images/ertiga.png"/>
-                <div className="absolute top-4 right-4 bg-[#febb28] text-[#563b00] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Popular</div>
-              </div>
-              <div className="p-8">
-                <h3 className="font-headline text-xl font-bold mb-4">SUV 7 Seater - Ertiga</h3>
-                <div className="flex flex-wrap gap-4 mb-8">
-                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">event_seat</span> 7 Seats</div>
-                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">ac_unit</span> AC</div>
-                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">luggage</span> 4 Bags</div>
-                </div>
-                <button onClick={() => navigate('/calculate')} className="inline-block text-[#994100] font-bold border-b border-[#994100]/20 pb-1 hover:border-[#994100] transition-colors cursor-pointer">Book Now</button>
-              </div>
-            </div>
-            {/* SUV 8/9 Seater - Scorpio */}
-            <div className="bg-[#f8f0e5] rounded-[2rem] overflow-hidden transition-all hover:bg-white hover:shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] group">
-              <div className="relative h-64 overflow-hidden">
-                <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="SUV Scorpio 8/9 Seater" src="/images/scorpio.png"/>
-              </div>
-              <div className="p-8">
-                <h3 className="font-headline text-xl font-bold mb-4">SUV 8/9 Seater - Scorpio</h3>
-                <div className="flex flex-wrap gap-4 mb-8">
-                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">event_seat</span> 8/9 Seats</div>
-                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">ac_unit</span> AC</div>
-                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">luggage</span> 4 Bags</div>
-                </div>
-                <button onClick={() => navigate('/calculate')} className="inline-block text-[#994100] font-bold border-b border-[#994100]/20 pb-1 hover:border-[#994100] transition-colors cursor-pointer">Book Now</button>
-              </div>
             </div>
           </div>
         </div>
@@ -466,7 +644,15 @@ function HomePage() {
 function CalculatePage() {
   const navigate = useNavigate();
   const [searchParams] = useSearchParams();
-  const [carType, setCarType] = useState<CarType>('sedan');
+  
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+  const initialCar = (searchParams.get('car') as CarType) || 'sedan';
+  const isValidCar = ['sedan', 'suv', 'scorpio'].includes(initialCar);
+  
+  const [carType, setCarType] = useState<CarType>(isValidCar ? initialCar : 'sedan');
   const [isAc, setIsAc] = useState(true);
   const [packageType, setPackageType] = useState<PackageType>('local');
   const [hours, setHours] = useState<string>('');
@@ -475,7 +661,8 @@ function CalculatePage() {
   const [showResult, setShowResult] = useState(false);
 
   // Trip details from hero booking bar
-  const tripPickup = searchParams.get('pickup') || '';
+  const tripFrom = searchParams.get('from') || '';
+  const tripTo = searchParams.get('to') || '';
   const tripDate = searchParams.get('date') || '';
   const tripTime = searchParams.get('time') || '';
 
@@ -500,6 +687,9 @@ function CalculatePage() {
     } else if (packageType === 'pick-drop') {
        pricingMode = 'pick-drop';
        basePrice = numKm * data.extraKmLocal[isAcKey];
+    } else if (numKm >= 300) {
+      pricingMode = 'per-km';
+      basePrice = numKm * data.outstationKm[isAcKey];
     } else if (numKm > 200) {
       pricingMode = 'per-km';
       basePrice = numKm * data.extraKmLocal[isAcKey];
@@ -514,13 +704,21 @@ function CalculatePage() {
         const eHoursCost = eHours * data.extraHour[isAcKey];
         const eKmCost = eKm * data.extraKmLocal[isAcKey];
         
-        const totalCost = pkgPrice + eHoursCost + eKmCost;
+        // Only add the higher of extra hours or extra km, not both
+        const extraCharge = Math.max(eHoursCost, eKmCost);
+        const totalCost = pkgPrice + extraCharge;
         
         if (totalCost < bestCost) {
           bestCost = totalCost;
           basePrice = pkgPrice;
-          extraHoursCharge = eHoursCost;
-          extraKmCharge = eKmCost;
+          // Only keep the higher charge, zero out the lower one
+          if (eHoursCost >= eKmCost) {
+            extraHoursCharge = eHoursCost;
+            extraKmCharge = 0;
+          } else {
+            extraHoursCharge = 0;
+            extraKmCharge = eKmCost;
+          }
           appliedPackage = pkg;
         }
       }
@@ -696,19 +894,21 @@ function CalculatePage() {
                 {showResult && calculation && (
                   <div className="mt-12 pt-10 border-t border-[#efe7dc]">
                     {/* Trip Details Banner (from hero booking bar) */}
-                    {(tripPickup || tripDate || tripTime) && (
+                    {(tripFrom || tripTo || tripDate || tripTime) && (
                       <div className="bg-gradient-to-r from-[#994100]/10 to-[#ff7a23]/10 border border-[#994100]/15 p-4 sm:p-6 rounded-2xl mb-8">
                         <div className="flex items-center gap-2 mb-3">
                           <span className="material-symbols-outlined text-[#994100]">route</span>
                           <h3 className="font-headline font-bold text-[#322e28]">Your Trip Details</h3>
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-4 gap-3">
-                          {tripPickup && (
+                          {(tripFrom || tripTo) && (
                             <div className="md:col-span-2 flex items-center gap-2 bg-white/70 px-3 py-2 rounded-xl">
                               <span className="material-symbols-outlined text-[#994100] text-base">pin_drop</span>
                               <div>
                                 <div className="text-[10px] font-bold uppercase tracking-widest text-[#7b766e]">Trip Route</div>
-                                <div className="text-sm font-medium text-[#322e28] truncate max-w-[200px] sm:max-w-[400px]" title={tripPickup}>{tripPickup}</div>
+                                <div className="text-sm font-medium text-[#322e28] truncate max-w-[200px] sm:max-w-[400px]" title={`${tripFrom} to ${tripTo}`}>
+                                  {tripFrom ? tripFrom : '-'} <span className="text-[#994100] mx-1">→</span> {tripTo ? tripTo : '-'}
+                                </div>
                               </div>
                             </div>
                           )}
@@ -765,7 +965,7 @@ function CalculatePage() {
                     )}
                     <button onClick={() => {
                       let msg = `Hi, I'd like to book a ${packageType === 'outstation' ? 'Outstation' : 'Local'} trip.`;
-                      if (tripPickup) msg += `\nTrip Route: ${tripPickup}`;
+                      if (tripFrom || tripTo) msg += `\nTrip Route: ${tripFrom || '-'} to ${tripTo || '-'}`;
                       if (tripDate) msg += `\nDate: ${tripDate}`;
                       if (tripTime) msg += `\nTime: ${tripTime}`;
                       msg += `\nCar: ${carType === 'sedan' ? 'Sedan' : 'SUV'} | AC: ${isAc ? 'Yes' : 'No'}`;

@@ -11,7 +11,7 @@ export interface PricingData {
 }
 
 export const CAR_TYPE_LABELS: Record<CarType, { name: string; subtitle: string; icon: string; seats: string }> = {
-  sedan: { name: 'Sedan Car', subtitle: 'Dzire · 4 Seater', icon: 'directions_car', seats: '4' },
+  sedan: { name: 'Sedan & Hatchback', subtitle: 'Dzire / Swift · 4 Seater', icon: 'directions_car', seats: '4' },
   suv: { name: 'SUV 7 Seater', subtitle: 'Ertiga', icon: 'airport_shuttle', seats: '7' },
   scorpio: { name: 'SUV Scorpio', subtitle: '8/9 Seater', icon: 'directions_car_filled', seats: '8/9' },
 };
