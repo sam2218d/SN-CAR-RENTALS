@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { BrowserRouter, Routes, Route, useNavigate, useSearchParams, Link } from 'react-router-dom';
 
-import { CarType, PackageType, NightChargeType, PRICING, NIGHT_CHARGES, PICK_DROP_RATES } from './pricingConfig';
+import { CarType, PackageType, NightChargeType, PRICING, NIGHT_CHARGES, PICK_DROP_RATES, PICK_DROP_RATES_SEDAN, PICK_DROP_RATES_SUV, PICK_DROP_RATES_SCORPIO, NIGHT_CHARGES_SEDAN, NIGHT_CHARGES_SUV, NIGHT_CHARGES_SCORPIO } from './pricingConfig';
 
 // ============================================================
 // NAVBAR COMPONENT
@@ -18,6 +18,7 @@ function Navbar() {
           <a className="text-slate-700 hover:text-orange-600 transition-colors font-headline text-sm font-medium tracking-tight cursor-pointer" href="#services">Services</a>
           <a className="text-slate-700 hover:text-orange-600 transition-colors font-headline text-sm font-medium tracking-tight cursor-pointer" href="#why-us">About</a>
           <a className="text-slate-700 hover:text-orange-600 transition-colors font-headline text-sm font-medium tracking-tight cursor-pointer" href="#fleet">Fleet</a>
+          <Link to="/fare-chart" className="text-slate-700 hover:text-orange-600 transition-colors font-headline text-sm font-medium tracking-tight">Fare Chart</Link>
         </div>
         <div className="flex items-center gap-3">
           <button 
@@ -43,6 +44,7 @@ function Navbar() {
           <a href="#services" onClick={() => setMenuOpen(false)} className="block text-slate-700 font-headline text-base font-medium cursor-pointer">Services</a>
           <a href="#why-us" onClick={() => setMenuOpen(false)} className="block text-slate-700 font-headline text-base font-medium cursor-pointer">About</a>
           <a href="#fleet" onClick={() => setMenuOpen(false)} className="block text-slate-700 font-headline text-base font-medium cursor-pointer">Fleet</a>
+          <Link to="/fare-chart" onClick={() => setMenuOpen(false)} className="block text-slate-700 font-headline text-base font-medium">Fare Chart</Link>
           <a href="tel:7003692464" className="flex items-center gap-2 text-[#994100] font-bold font-headline text-base cursor-pointer">
             <span className="material-symbols-outlined text-lg">call</span> Call: 7003692464
           </a>
@@ -355,13 +357,13 @@ function HomePage() {
             </button>
           </div>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            {/* Executive Sedan */}
+            {/* Sedan Car - Dzire */}
             <div className="bg-[#f8f0e5] rounded-[2rem] overflow-hidden transition-all hover:bg-white hover:shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] group">
               <div className="relative h-64 overflow-hidden">
-                <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Executive Sedan" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBmMbz0Dliyn3-jegiF9-v_HdSuxLRCNR-v3FvOuHBLpsEvKX_StKHgLUiD5Vd7m5wnt59YxUaLhnhArs2ZpJ8F33CXvqoM5HJCI_aTzPc0i4ZlrvQYpfsBDlKl0ERfEYuBreFqm24oc85Dfp5qMvsesWNDv7mZPVappP_WKbksNFmef51_fFjT7ZwlHDFB36nMNEPG9-HDfZlpfE3cSCBaJD0IABEQUJ4SFIWaWrCj5hUdbHQS1PUiFs9maddXFBD-5nbjFk4e04"/>
+                <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Sedan Car Dzire" src="/images/dzire.png"/>
               </div>
               <div className="p-8">
-                <h3 className="font-headline text-xl font-bold mb-4">Executive Sedan</h3>
+                <h3 className="font-headline text-xl font-bold mb-4">Sedan Car - Dzire</h3>
                 <div className="flex flex-wrap gap-4 mb-8">
                   <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">event_seat</span> 4 Seats</div>
                   <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">ac_unit</span> AC</div>
@@ -370,14 +372,14 @@ function HomePage() {
                 <button onClick={() => navigate('/calculate')} className="inline-block text-[#994100] font-bold border-b border-[#994100]/20 pb-1 hover:border-[#994100] transition-colors cursor-pointer">Book Now</button>
               </div>
             </div>
-            {/* Luxury SUV */}
+            {/* SUV 7 Seater - Ertiga */}
             <div className="bg-[#f8f0e5] rounded-[2rem] overflow-hidden transition-all hover:bg-white hover:shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] group">
               <div className="relative h-64 overflow-hidden">
-                <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Luxury SUV" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD5YJcSaDhIRtqI_ZMqKMgGhUcp9XbMqT2TC1SWcCg68J9lH3PgG9WM-R3j5JRPY7giikC3MjYEl_nu5_20al8FxXRDiizwTUMdY7Qgu5UDHfmu-0DFeRasRmpQ46D7e-h2PF21FMTKcCgM2mTUtFPfnGHXy87raHuROHMllha2_5d84zk1q-qhmRLG7jatQPizPlx6SuFgnOZ1rqOs0ZBbnqKxDRZyGled63mLNcgeaaAdAm3dKOEMj3c99da5v8c3bkEWCFZx13w"/>
+                <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="SUV 7 Seater Ertiga" src="/images/ertiga.png"/>
                 <div className="absolute top-4 right-4 bg-[#febb28] text-[#563b00] text-[10px] font-black px-3 py-1 rounded-full uppercase tracking-widest">Popular</div>
               </div>
               <div className="p-8">
-                <h3 className="font-headline text-xl font-bold mb-4">Luxury SUV</h3>
+                <h3 className="font-headline text-xl font-bold mb-4">SUV 7 Seater - Ertiga</h3>
                 <div className="flex flex-wrap gap-4 mb-8">
                   <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">event_seat</span> 7 Seats</div>
                   <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">ac_unit</span> AC</div>
@@ -386,17 +388,17 @@ function HomePage() {
                 <button onClick={() => navigate('/calculate')} className="inline-block text-[#994100] font-bold border-b border-[#994100]/20 pb-1 hover:border-[#994100] transition-colors cursor-pointer">Book Now</button>
               </div>
             </div>
-            {/* Premium Hatchback */}
+            {/* SUV 8/9 Seater - Scorpio */}
             <div className="bg-[#f8f0e5] rounded-[2rem] overflow-hidden transition-all hover:bg-white hover:shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] group">
               <div className="relative h-64 overflow-hidden">
-                <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="Premium Hatchback" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAAwiTqdkozgl7M_PzweVsk3TkeLN1xVmFEs7ByeAbaHx8TsHLgvSXXiG4KoB_CugyLGH2cd1s2H5OCG77MCfvNpIDfTXV1vmTZBznfpoXFoMVfK-MGV7tDvLW0yAS7uORtU1nfw70ihY-SwcfXM9NRIuIpkA6DsK4DaI7ZK5PWweFObSe3Sob1sR6ViNT6TC_fE2n3JHm5_p36OtnhkXuNpIq-IzDWAYtirVbZGs4DB53GuP9pldek3YizARVYha92AtErLTmZEIk"/>
+                <img className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500" alt="SUV Scorpio 8/9 Seater" src="/images/scorpio.png"/>
               </div>
               <div className="p-8">
-                <h3 className="font-headline text-xl font-bold mb-4">Premium Hatchback</h3>
+                <h3 className="font-headline text-xl font-bold mb-4">SUV 8/9 Seater - Scorpio</h3>
                 <div className="flex flex-wrap gap-4 mb-8">
-                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">event_seat</span> 4 Seats</div>
+                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">event_seat</span> 8/9 Seats</div>
                   <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">ac_unit</span> AC</div>
-                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">luggage</span> 1 Bag</div>
+                  <div className="flex items-center gap-1.5 text-[#5f5b53] text-sm"><span className="material-symbols-outlined text-lg">luggage</span> 4 Bags</div>
                 </div>
                 <button onClick={() => navigate('/calculate')} className="inline-block text-[#994100] font-bold border-b border-[#994100]/20 pb-1 hover:border-[#994100] transition-colors cursor-pointer">Book Now</button>
               </div>
@@ -621,8 +623,9 @@ function CalculatePage() {
                       onChange={(e) => { setCarType(e.target.value as CarType); setShowResult(false); }}
                       className="w-full bg-[#f8f0e5] border-0 rounded-xl py-3.5 px-4 font-body text-[#322e28] focus:ring-2 focus:ring-[#994100] cursor-pointer"
                     >
-                      <option value="sedan">Executive Sedan</option>
-                      <option value="suv">Luxury SUV</option>
+                      <option value="sedan">Sedan Car (Dzire - 4 Seater)</option>
+                      <option value="suv">SUV 7 Seater (Ertiga)</option>
+                      <option value="scorpio">SUV Scorpio (8/9 Seater)</option>
                     </select>
                   </div>
 
@@ -786,6 +789,305 @@ function CalculatePage() {
 }
 
 // ============================================================
+// FARE CHART PAGE
+// ============================================================
+function FareChartPage() {
+  const navigate = useNavigate();
+  const [activeTab, setActiveTab] = useState<CarType>('sedan');
+
+  const data = PRICING[activeTab];
+  const pickDropRates = activeTab === 'scorpio' ? PICK_DROP_RATES_SCORPIO : (activeTab === 'suv' ? PICK_DROP_RATES_SUV : PICK_DROP_RATES_SEDAN);
+  const nightCharges = activeTab === 'scorpio' ? NIGHT_CHARGES_SCORPIO : (activeTab === 'suv' ? NIGHT_CHARGES_SUV : NIGHT_CHARGES_SEDAN);
+
+  return (
+    <div className="min-h-screen bg-[#fdf5eb] font-body text-[#322e28]">
+      <Navbar />
+
+      <main className="pt-24 sm:pt-28 pb-12 sm:pb-24 px-4 sm:px-8">
+        <div className="max-w-5xl mx-auto">
+          {/* Back */}
+          <button onClick={() => navigate('/')} className="flex items-center gap-2 text-[#994100] font-bold mb-4 sm:mb-8 hover:underline cursor-pointer text-sm sm:text-base">
+            <span className="material-symbols-outlined">arrow_back</span> Back to Home
+          </button>
+
+          {/* Title */}
+          <div className="mb-6 sm:mb-10 text-center">
+            <span className="text-[#994100] font-bold tracking-widest uppercase text-xs">Transparent Pricing</span>
+            <h1 className="font-headline text-3xl sm:text-5xl font-extrabold text-[#322e28] mt-2">Fare Chart</h1>
+            <p className="text-[#5f5b53] mt-2 sm:mt-3 text-sm sm:text-lg max-w-2xl mx-auto">Complete pricing guide for all our car rental packages. No hidden charges.</p>
+          </div>
+
+          {/* Car Type Tabs */}
+          <div className="flex flex-wrap justify-center gap-3 mb-8 sm:mb-12">
+            <button
+              onClick={() => setActiveTab('sedan')}
+              className={`px-4 sm:px-6 py-3 sm:py-4 rounded-2xl font-headline font-bold text-sm sm:text-base transition-all cursor-pointer ${
+                activeTab === 'sedan'
+                  ? 'bg-gradient-to-br from-[#994100] to-[#ff7a23] text-white shadow-lg shadow-orange-500/20 scale-105'
+                  : 'bg-white text-[#322e28] hover:bg-[#f8f0e5] border border-[#efe7dc]'
+              }`}
+            >
+              <span className="material-symbols-outlined align-middle mr-2 text-lg">directions_car</span>
+              Sedan (Dzire)
+            </button>
+            <button
+              onClick={() => setActiveTab('suv')}
+              className={`px-4 sm:px-6 py-3 sm:py-4 rounded-2xl font-headline font-bold text-sm sm:text-base transition-all cursor-pointer ${
+                activeTab === 'suv'
+                  ? 'bg-gradient-to-br from-[#994100] to-[#ff7a23] text-white shadow-lg shadow-orange-500/20 scale-105'
+                  : 'bg-white text-[#322e28] hover:bg-[#f8f0e5] border border-[#efe7dc]'
+              }`}
+            >
+              <span className="material-symbols-outlined align-middle mr-2 text-lg">airport_shuttle</span>
+              SUV (Ertiga)
+            </button>
+            <button
+              onClick={() => setActiveTab('scorpio')}
+              className={`px-4 sm:px-6 py-3 sm:py-4 rounded-2xl font-headline font-bold text-sm sm:text-base transition-all cursor-pointer ${
+                activeTab === 'scorpio'
+                  ? 'bg-gradient-to-br from-[#994100] to-[#ff7a23] text-white shadow-lg shadow-orange-500/20 scale-105'
+                  : 'bg-white text-[#322e28] hover:bg-[#f8f0e5] border border-[#efe7dc]'
+              }`}
+            >
+              <span className="material-symbols-outlined align-middle mr-2 text-lg">directions_car_filled</span>
+              Scorpio (8/9)
+            </button>
+          </div>
+
+          {/* ---- SECTION 1: Local Packages ---- */}
+          <div className="bg-white rounded-[2rem] shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] overflow-hidden mb-8">
+            <div className="bg-gradient-to-r from-[#994100] to-[#ff7a23] px-6 sm:px-8 py-5">
+              <div className="flex items-center gap-3">
+                <span className="material-symbols-outlined text-white text-2xl">local_taxi</span>
+                <div>
+                  <h2 className="font-headline text-lg sm:text-xl font-bold text-white">Local Packages</h2>
+                  <p className="text-white/70 text-xs sm:text-sm">City rental rates with hours & KM limits</p>
+                </div>
+              </div>
+            </div>
+
+            {/* Table */}
+            <div className="overflow-x-auto">
+              <table className="w-full text-sm">
+                <thead>
+                  <tr className="bg-[#f8f0e5]">
+                    <th className="px-4 sm:px-6 py-4 text-left font-headline font-bold text-[#322e28] text-xs uppercase tracking-widest">Package</th>
+                    <th className="px-4 sm:px-6 py-4 text-center font-headline font-bold text-[#322e28] text-xs uppercase tracking-widest">
+                      <span className="inline-flex items-center gap-1">
+                        <span className="material-symbols-outlined text-sm text-[#7b766e]">ac_unit</span> Non-AC
+                      </span>
+                    </th>
+                    <th className="px-4 sm:px-6 py-4 text-center font-headline font-bold text-[#322e28] text-xs uppercase tracking-widest">
+                      <span className="inline-flex items-center gap-1">
+                        <span className="material-symbols-outlined text-sm text-[#994100]">ac_unit</span> AC
+                      </span>
+                    </th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {data.packages.map((pkg, i) => (
+                    <tr key={i} className={`border-t border-[#efe7dc] ${i % 2 === 0 ? '' : 'bg-[#fdf8f3]'} hover:bg-[#fef6ec] transition-colors`}>
+                      <td className="px-4 sm:px-6 py-4">
+                        <div className="font-headline font-bold text-[#322e28]">
+                          {pkg.label || `${pkg.hours} Hours / ${pkg.km} KM`}
+                        </div>
+                        {!pkg.label && <div className="text-[#7b766e] text-xs mt-0.5">{pkg.hours}hrs or {pkg.km}km limit</div>}
+                      </td>
+                      <td className="px-4 sm:px-6 py-4 text-center">
+                        <span className="font-headline font-bold text-lg text-[#322e28]">₹{pkg.nonAc.toLocaleString('en-IN')}</span>
+                      </td>
+                      <td className="px-4 sm:px-6 py-4 text-center">
+                        <span className="inline-block bg-gradient-to-br from-[#994100] to-[#ff7a23] text-white font-headline font-bold text-lg px-4 py-1 rounded-full">
+                          ₹{pkg.ac.toLocaleString('en-IN')}
+                        </span>
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          {/* ---- SECTION 2: Extra Charges ---- */}
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-6 mb-8">
+            {/* Extra Hours */}
+            <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-[0_20px_40px_-15px_rgba(50,46,40,0.04)] border border-[#efe7dc]">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-10 h-10 bg-[#f8f0e5] rounded-full flex items-center justify-center">
+                  <span className="material-symbols-outlined text-[#994100]">schedule</span>
+                </div>
+                <h3 className="font-headline font-bold text-[#322e28]">Extra Hours</h3>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center bg-[#f8f0e5] px-4 py-2.5 rounded-xl">
+                  <span className="text-[#7b766e] text-sm font-medium">Non-AC</span>
+                  <span className="font-headline font-bold text-[#322e28]">₹{data.extraHour.nonAc}/hr</span>
+                </div>
+                <div className="flex justify-between items-center bg-gradient-to-r from-[#994100]/10 to-[#ff7a23]/10 px-4 py-2.5 rounded-xl">
+                  <span className="text-[#994100] text-sm font-medium">AC</span>
+                  <span className="font-headline font-bold text-[#994100]">₹{data.extraHour.ac}/hr</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Extra KM (Local) */}
+            <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-[0_20px_40px_-15px_rgba(50,46,40,0.04)] border border-[#efe7dc]">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-10 h-10 bg-[#f8f0e5] rounded-full flex items-center justify-center">
+                  <span className="material-symbols-outlined text-[#994100]">speed</span>
+                </div>
+                <h3 className="font-headline font-bold text-[#322e28]">Extra KM (Local)</h3>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center bg-[#f8f0e5] px-4 py-2.5 rounded-xl">
+                  <span className="text-[#7b766e] text-sm font-medium">Non-AC</span>
+                  <span className="font-headline font-bold text-[#322e28]">₹{data.extraKmLocal.nonAc}/km</span>
+                </div>
+                <div className="flex justify-between items-center bg-gradient-to-r from-[#994100]/10 to-[#ff7a23]/10 px-4 py-2.5 rounded-xl">
+                  <span className="text-[#994100] text-sm font-medium">AC</span>
+                  <span className="font-headline font-bold text-[#994100]">₹{data.extraKmLocal.ac}/km</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Outstation KM */}
+            <div className="bg-white rounded-2xl p-5 sm:p-6 shadow-[0_20px_40px_-15px_rgba(50,46,40,0.04)] border border-[#efe7dc]">
+              <div className="flex items-center gap-2 mb-4">
+                <div className="w-10 h-10 bg-[#f8f0e5] rounded-full flex items-center justify-center">
+                  <span className="material-symbols-outlined text-[#994100]">distance</span>
+                </div>
+                <h3 className="font-headline font-bold text-[#322e28]">Outstation KM</h3>
+              </div>
+              <div className="space-y-2">
+                <div className="flex justify-between items-center bg-[#f8f0e5] px-4 py-2.5 rounded-xl">
+                  <span className="text-[#7b766e] text-sm font-medium">Non-AC</span>
+                  <span className="font-headline font-bold text-[#322e28]">₹{data.outstationKm.nonAc}/km</span>
+                </div>
+                <div className="flex justify-between items-center bg-gradient-to-r from-[#994100]/10 to-[#ff7a23]/10 px-4 py-2.5 rounded-xl">
+                  <span className="text-[#994100] text-sm font-medium">AC</span>
+                  <span className="font-headline font-bold text-[#994100]">₹{data.outstationKm.ac}/km</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ---- SECTION 3: 300+ KM Bulk Rate ---- */}
+          <div className="bg-gradient-to-br from-[#1E293B] to-[#334155] rounded-2xl p-6 sm:p-8 mb-8 text-white relative overflow-hidden">
+            <div className="absolute top-0 right-0 w-40 h-40 bg-[#994100]/20 rounded-full blur-3xl -translate-y-10 translate-x-10"></div>
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-4">
+                <span className="material-symbols-outlined text-[#febb28] text-2xl">rocket_launch</span>
+                <h2 className="font-headline text-lg sm:text-xl font-bold">Long Distance Rate (300+ KM)</h2>
+              </div>
+              <p className="text-slate-300 text-sm mb-5">For trips exceeding 300 KM, inter-day flat per-KM pricing applies.</p>
+              <div className="grid grid-cols-2 gap-4">
+                <div className="bg-white/10 backdrop-blur-sm px-5 py-4 rounded-xl border border-white/10">
+                  <div className="text-slate-400 text-xs font-bold uppercase tracking-widest mb-1">Non-AC</div>
+                  <div className="text-2xl font-headline font-bold text-white">₹{data.bulkRateKm.nonAc}<span className="text-sm text-slate-400">/km</span></div>
+                </div>
+                <div className="bg-gradient-to-br from-[#994100]/40 to-[#ff7a23]/40 backdrop-blur-sm px-5 py-4 rounded-xl border border-[#ff7a23]/30">
+                  <div className="text-orange-300 text-xs font-bold uppercase tracking-widest mb-1">AC</div>
+                  <div className="text-2xl font-headline font-bold text-white">₹{data.bulkRateKm.ac}<span className="text-sm text-orange-300">/km</span></div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* ---- SECTION 4: Pick & Drop ---- */}
+          <div className="bg-white rounded-[2rem] shadow-[0_40px_60px_-15px_rgba(50,46,40,0.06)] overflow-hidden mb-8">
+            <div className="bg-[#f8f0e5] px-6 sm:px-8 py-5 border-b border-[#efe7dc]">
+              <div className="flex items-center gap-3">
+                <span className="material-symbols-outlined text-[#994100] text-2xl">pin_drop</span>
+                <div>
+                  <h2 className="font-headline text-lg sm:text-xl font-bold text-[#322e28]">Station & Airport Pick/Drop</h2>
+                  <p className="text-[#7b766e] text-xs sm:text-sm">Fixed fare for station and airport transfers</p>
+                </div>
+              </div>
+            </div>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 p-5 sm:p-8">
+              {pickDropRates.map((rate) => (
+                <div key={rate.id} className="bg-[#fdf8f3] border border-[#efe7dc] rounded-2xl p-5 hover:shadow-md transition-shadow relative">
+                  {rate.isPopular && (
+                    <div className="absolute top-3 right-3 bg-[#febb28] text-[#563b00] text-[9px] font-black px-2.5 py-0.5 rounded-full uppercase tracking-widest">Popular</div>
+                  )}
+                  <div className="flex items-center gap-2.5 mb-4">
+                    <div className="w-9 h-9 bg-white rounded-full flex items-center justify-center shadow-sm">
+                      <span className="material-symbols-outlined text-[#994100] text-lg">{rate.icon}</span>
+                    </div>
+                    <h4 className="font-headline font-bold text-[#322e28]">{rate.name}</h4>
+                  </div>
+                  <div className="flex gap-3">
+                    <div className="flex-1 bg-white text-center py-3 rounded-xl">
+                      <div className="text-[9px] font-bold uppercase tracking-widest text-[#7b766e] mb-0.5">Non-AC</div>
+                      <div className="font-headline font-bold text-lg text-[#322e28]">₹{rate.nonAc.toLocaleString('en-IN')}</div>
+                    </div>
+                    <div className="flex-1 bg-gradient-to-br from-[#994100] to-[#ff7a23] text-center py-3 rounded-xl text-white">
+                      <div className="text-[9px] font-bold uppercase tracking-widest text-white/70 mb-0.5">AC</div>
+                      <div className="font-headline font-bold text-lg">₹{rate.ac.toLocaleString('en-IN')}</div>
+                    </div>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          {/* ---- SECTION 5: Night Charges ---- */}
+          <div className="bg-gradient-to-br from-[#1a1625] to-[#2d2640] rounded-[2rem] p-6 sm:p-8 mb-8 text-white relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-32 h-32 bg-indigo-500/10 rounded-full blur-3xl"></div>
+            <div className="absolute bottom-0 right-0 w-48 h-48 bg-purple-500/10 rounded-full blur-3xl"></div>
+            <div className="relative z-10">
+              <div className="flex items-center gap-3 mb-6">
+                <span className="material-symbols-outlined text-indigo-300 text-2xl">dark_mode</span>
+                <h2 className="font-headline text-lg sm:text-xl font-bold">Night Charges</h2>
+              </div>
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <div className="bg-white/8 backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:bg-white/12 transition-colors">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="material-symbols-outlined text-amber-300 text-lg">bedtime</span>
+                    <h4 className="font-headline font-bold text-sm">Half Night</h4>
+                  </div>
+                  <div className="text-3xl font-headline font-bold text-white mb-1">₹{nightCharges.half.amount}</div>
+                  <p className="text-slate-400 text-xs">{nightCharges.half.desc}</p>
+                </div>
+                <div className="bg-white/8 backdrop-blur-sm border border-white/10 rounded-2xl p-5 hover:bg-white/12 transition-colors">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="material-symbols-outlined text-indigo-300 text-lg">nights_stay</span>
+                    <h4 className="font-headline font-bold text-sm">Full Night</h4>
+                  </div>
+                  <div className="text-3xl font-headline font-bold text-white mb-1">₹{nightCharges.full.amount}</div>
+                  <p className="text-slate-400 text-xs">{nightCharges.full.desc}</p>
+                </div>
+                <div className="bg-gradient-to-br from-indigo-600/30 to-purple-600/30 backdrop-blur-sm border border-indigo-400/20 rounded-2xl p-5 hover:from-indigo-600/40 hover:to-purple-600/40 transition-colors">
+                  <div className="flex items-center gap-2 mb-2">
+                    <span className="material-symbols-outlined text-purple-300 text-lg">wb_twilight</span>
+                    <h4 className="font-headline font-bold text-sm">Night + Next Day</h4>
+                  </div>
+                  <div className="text-3xl font-headline font-bold text-white mb-1">₹{nightCharges.nextDay.amount}</div>
+                  <p className="text-slate-400 text-xs">{nightCharges.nextDay.desc}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* CTA */}
+          <div className="text-center mt-10">
+            <button
+              onClick={() => navigate('/calculate')}
+              className="bg-gradient-to-br from-[#994100] to-[#ff7a23] text-white px-10 py-4 rounded-full font-bold text-base sm:text-lg uppercase tracking-widest shadow-lg shadow-orange-500/20 hover:scale-105 active:scale-95 transition-transform cursor-pointer"
+            >
+              Calculate Your Fare
+            </button>
+            <p className="text-[#7b766e] text-xs mt-4">* Terms & conditions apply. Prices subject to change.</p>
+          </div>
+        </div>
+      </main>
+
+      <Footer />
+    </div>
+  );
+}
+
+// ============================================================
 // APP (Router)
 // ============================================================
 export default function App() {
@@ -794,6 +1096,7 @@ export default function App() {
       <Routes>
         <Route path="/" element={<HomePage />} />
         <Route path="/calculate" element={<CalculatePage />} />
+        <Route path="/fare-chart" element={<FareChartPage />} />
       </Routes>
     </BrowserRouter>
   );
